@@ -3,6 +3,7 @@ package com.usp.icmc.tictactoe;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,15 +12,13 @@ import javafx.stage.Stage;
 
 import javax.xml.soap.Node;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class HostConnectController{
+public class HostConnectController implements Initializable{
     @FXML
     private TextField hostPortText;
     @FXML
@@ -150,6 +149,10 @@ public class HostConnectController{
         stage.show();
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
 }
 
 
