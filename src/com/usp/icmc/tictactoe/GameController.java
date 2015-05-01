@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -19,6 +20,7 @@ import java.util.Scanner;
 public class GameController implements Initializable {
     private Button[][] buttons;
     static final String gameCommand = "hueNaFederupa";
+    private Socket connection;
 
     @FXML
     private GridPane gridPane;
@@ -47,6 +49,7 @@ public class GameController implements Initializable {
                 b.setAlignment(Pos.CENTER);
                 b.setMaxHeight(Double.MAX_VALUE);
                 b.setMaxWidth(Double.MAX_VALUE);
+                b.getStylesheets().add("game");
                 GridPane.setMargin(b, new Insets(1d, 1d, 1d, 1d));
 
                 gridPane.add(b, j, i);
@@ -59,10 +62,14 @@ public class GameController implements Initializable {
                 });
             }
         }
+    }
 
+    public void initializeSocket(Socket socket){
+
+        this.connection = socket;
         Scanner dataIncome;
         try {
-            dataIncome = new Scanner(ConnectionController.getConnection().getInputStream());
+            dataIncome = new Scanner(connection.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
             //se for windows, deleta o System32 =)
@@ -106,6 +113,30 @@ public class GameController implements Initializable {
                 dataIncome.close();
             }
         }
-        new Thread(new ChatHandler(dataIncome, myTurn, buttons, chatField)).start();
+        Thread handleCommunication = new Thread(() -> {
+            while(dataIncome.hasNext()){
+                String message = dataIncome.nextLine();
+                if(message.startsWith(gameCommand) && !myTurn){
+                    myTurn = !myTurn;
+                    Scanner stringParser = new Scanner(message).useDelimiter("#");
+                    stringParser.next();
+
+                    int i = stringParser.nextInt();
+                    int j = stringParser.nextInt();
+
+                    if(!buttons[i][j].isDisabled())
+                        buttons[i][j].fire();
+
+                    stringParser.close();
+
+                }else{
+                    chatField.appendText(message);
+                }
+            }
+            dataIncome.close();
+        });
+//        Thread handleCommunication = new Thread(new ChatHandler(dataIncome, myTurn, buttons, chatField));
+        handleCommunication.setDaemon(true);
+        handleCommunication.start();
     }
 }
