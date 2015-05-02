@@ -11,7 +11,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -21,17 +20,12 @@ import java.util.Scanner;
 
 public class GameController implements Initializable {
     private Button[][] buttons;
-    static final String gameCommand = "command";
+    static final String gameCommand = "casoiehcsliuaseavsnufhaiushvnfoisduhacnshfnijsbhidj";
     private Socket connection;
 
-    @FXML
-    private GridPane gridPane;
-
-    @FXML
-    private TextArea chatField;
-
-    @FXML
-    private TextField chatInput;
+    @FXML private GridPane gridPane;
+    @FXML private TextArea chatField;
+    @FXML private TextField chatInput;
 
     private boolean myTurn;
     private boolean turn;
@@ -58,21 +52,34 @@ public class GameController implements Initializable {
                 gridPane.add(b, j, i);
                 buttons[i][j] = b;
 
-//                b.setDisable(true);
-
                 b.setOnAction(event -> {
                     if (!myTurn)
                         return;
                     PrintWriter writer = null;
                     try {
-                        writer = new PrintWriter(connection.getOutputStream());
+                        writer = new PrintWriter(connection.getOutputStream(), true);
                     } catch (IOException e) {
                         return;
                     }
                     myTurn = !myTurn;
                     Button button = ((Button) event.getSource());
                     button.setDisable(true);
-                    button.getStyleClass().add(turn ? "buttonPressedO" : "buttonPressedX");
+                    button.getStyleClass().add(getStyle(turn));
+                    if (checkGameOver()) {
+                        if (myTurn) {
+                            /* TODO I won! */
+                            System.out.println("wee");
+                        } else {
+                            /* TODO opponent won */
+                            System.out.println("ahh");
+                        }
+                    }
+                    if(!turn) {
+                        myTurn = !myTurn;
+                        turn = true;
+                        return;
+                    }
+                    turn = !turn;
                     writer.println(gameCommand);
 
                     int x = 0, y = 0;
@@ -85,18 +92,9 @@ public class GameController implements Initializable {
                     }
                     writer.println(x);
                     writer.println(y);
-                    writer.flush();
+//                    writer.flush();
 
 
-                    if (checkGameOver()) {
-                        if (myTurn) {
-                            /* TODO I won! */
-                            System.out.println("wee");
-                        } else {
-                            /* TODO opponent won */
-                            System.out.println("ahh");
-                        }
-                    }
                     focusSendText();
                 });
             }
@@ -111,13 +109,27 @@ public class GameController implements Initializable {
         } catch (IOException e1) {
             return;
         }
+        if (chatInput.getText().equals(""))
+            return;
         writer.println(chatInput.getText());
         chatField.appendText(chatInput.getText() + "\n");
         chatInput.setText("");
     }
 
+    private String getStyle(boolean turn) {
+        /* TODO add a nice manager to styles */
+        return turn?"buttonPressedO":"buttonPressedX";
+    }
+
     private boolean checkGameOver() {
         /* TODO check if the game is over */
+        boolean over = false;
+        // test for each row
+        for (int i = 0; i < buttons.length; i++) {
+            for (int j = 0; j < buttons[i].length; j++) {
+
+            }
+        }
         return false;
     }
 
@@ -136,10 +148,11 @@ public class GameController implements Initializable {
             while(dataIncome.hasNext()){
                 String message = dataIncome.nextLine();
                 if(message.startsWith(gameCommand) && !myTurn){
-                    myTurn = !myTurn;
                     int i = dataIncome.nextInt();
                     int j = dataIncome.nextInt();
 
+                    if(!(buttons[i][j].isDisable()))
+                        myTurn = !myTurn;
                     buttons[i][j].fire();
                 }else{
                     chatField.appendText(message + "\n");
@@ -155,6 +168,7 @@ public class GameController implements Initializable {
         myTurn = turn;
         this.turn = turn;
     }
+
     public void focusSendText() {
         try {
             chatInput.requestFocus();
