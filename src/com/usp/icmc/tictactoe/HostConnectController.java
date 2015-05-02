@@ -1,5 +1,6 @@
 package com.usp.icmc.tictactoe;
 
+import com.sun.jnlp.ApiDialog;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.Event;
@@ -7,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -21,28 +19,21 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class HostConnectController {
-    @FXML
-    private TextField hostPortText;
-    @FXML
-    private TextField hostIPText;
-    @FXML
-    private TextField connectIPText;
-    @FXML
-    private TextField connectPortText;
-    @FXML
-    private RadioButton hostRadio;
-    @FXML
-    private RadioButton connectRadio;
-    @FXML
-    private Button hostButton;
-    @FXML
-    private Button connectButton;
-    @FXML
-    private ProgressIndicator hostIndicator;
+    @FXML public ToggleGroup selectRadio;
+    @FXML private TextField hostPortText;
+    @FXML private TextField hostIPText;
+    @FXML private TextField connectIPText;
+    @FXML private TextField connectPortText;
+    @FXML private RadioButton hostRadio;
+    @FXML private RadioButton connectRadio;
+    @FXML private Button hostButton;
+    @FXML private Button connectButton;
+    @FXML private ProgressIndicator hostIndicator;
 
     private final double gameWidth = 800;
     private final double gameHeight = 600;
     private Socket connection;
+    private ThreadGroup threadGroup;
 
     @FXML
     private void setRadioHost(Event e) {
@@ -67,11 +58,12 @@ public class HostConnectController {
 
         int port;
         final ServerSocket socket;
+        threadGroup = new ThreadGroup("AcceptConnection");
 
         try {
             port = getPortFromTextField(hostPortText);
         } catch (NumberFormatException numberFormatException) {
-            /* TODO */
+            /* TODO dialog to show that the entered port is invalid*/
             System.out.println("Invalid port number");
             return;
         }
@@ -79,12 +71,12 @@ public class HostConnectController {
         try {
             socket = new ServerSocket(port);
         } catch (IOException ioException) {
-            /* TODO */
+            /* TODO shouldn't happen since the port is checked above*/
             return;
         }
 
         Timer timer = new Timer();
-        Thread handleServerAcceptanceTimeout = new Thread(() -> {
+        Thread handleServerAcceptanceTimeout = new Thread(threadGroup, () -> {
             timer.schedule(
                     new TimerTask() {
                         @Override
@@ -104,22 +96,23 @@ public class HostConnectController {
 
         hostIndicator.setOpacity(1d);
         Stage stage = ((Stage) ((Button) e.getSource()).getScene().getWindow());
-        Thread handleServerAcceptance = new Thread(() -> {
+        Thread handleServerAcceptance = new Thread(threadGroup, () -> {
             try {
                 connection = socket.accept();
             } catch (SocketException socketException) {
                 System.out.println("closed socket");
                 return;
             } catch (IOException ioException) {
-                /* TODO */
+                /* TODO dialog to say that server got fucked up*/
                 return;
             }
             System.out.println(this.toString());
             timer.cancel();
+            handleServerAcceptanceTimeout.interrupt();
 
             Platform.runLater(() -> {
                 System.out.println(this.toString());
-                changeToGameScene(stage, connection);
+                changeToGameScene(stage, connection, true);
             });
             System.out.println("got a socket");
         });
@@ -156,7 +149,7 @@ public class HostConnectController {
         try {
             port = getPortFromTextField(connectPortText);
         } catch (NumberFormatException numberFormatException) {
-            /* TODO */
+            /* TODO dialog to show that the entered port is invalid*/
             System.out.println("Invalid port number");
             return;
         }
@@ -167,32 +160,32 @@ public class HostConnectController {
         try {
             connection = new Socket(IP, port);
         } catch (UnknownHostException e1) {
-            /* TODO */
+            /* TODO dialog to show that the ip is invalid*/
             System.out.println("Unknown host");
             return;
         } catch (IOException e1) {
-            /* TODO */
+            /* TODO dialog to show that the server is not up*/
             System.out.println("Other IOException");
             return;
         }
 
         Stage stage = ((Stage) ((Button) e.getSource()).getScene().getWindow());
-        changeToGameScene(stage);
+        changeToGameScene(stage, false);
     }
 
-    private int getPortFromTextField(TextField textField) throws NumberFormatException {
+    private int getPortFromTextField(TextField textField) {
         int port;
         port = Integer.parseInt(textField.getText());
-        if (port > 65535)
+        if (port < 0 || port > 65535)
             throw new NumberFormatException();
         return port;
     }
 
-    private void changeToGameScene(Stage stage){
-        changeToGameScene(stage, connection);
+    private void changeToGameScene(Stage stage, boolean turn){
+        changeToGameScene(stage, connection, turn);
     }
 
-    private void changeToGameScene(Stage stage, Socket connection) {
+    private void changeToGameScene(Stage stage, Socket connection, boolean turn) {
 
         GameController gc;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScene.fxml"));
@@ -209,6 +202,8 @@ public class HostConnectController {
         stage.show();
         gc = loader.getController();
         gc.initializeSocket(connection);
+        gc.focusSendText();
+        gc.setMyTurn(turn);
 
     }
 

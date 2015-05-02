@@ -1,6 +1,7 @@
 package com.usp.icmc.tictactoe;
 
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -12,6 +13,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,7 +21,7 @@ import java.util.Scanner;
 
 public class GameController implements Initializable {
     private Button[][] buttons;
-    static final String gameCommand = "hueNaFederupa";
+    static final String gameCommand = "command";
     private Socket connection;
 
     @FXML
@@ -32,6 +34,7 @@ public class GameController implements Initializable {
     private TextField chatInput;
 
     private boolean myTurn;
+    private boolean turn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,19 +52,72 @@ public class GameController implements Initializable {
                 b.setAlignment(Pos.CENTER);
                 b.setMaxHeight(Double.MAX_VALUE);
                 b.setMaxWidth(Double.MAX_VALUE);
-                b.getStylesheets().add("game");
+                b.getStyleClass().add("gameButton");
                 GridPane.setMargin(b, new Insets(1d, 1d, 1d, 1d));
 
                 gridPane.add(b, j, i);
                 buttons[i][j] = b;
 
-                b.setDisable(true);
+//                b.setDisable(true);
 
-                b.setOnMouseClicked(event -> {
-                    /* TODO */
+                b.setOnAction(event -> {
+                    if (!myTurn)
+                        return;
+                    PrintWriter writer = null;
+                    try {
+                        writer = new PrintWriter(connection.getOutputStream());
+                    } catch (IOException e) {
+                        return;
+                    }
+                    myTurn = !myTurn;
+                    Button button = ((Button) event.getSource());
+                    button.setDisable(true);
+                    button.getStyleClass().add(turn ? "buttonPressedO" : "buttonPressedX");
+                    writer.println(gameCommand);
+
+                    int x = 0, y = 0;
+                    All:
+                    for (x = 0; x < buttons.length ; x++) {
+                        for (y = 0; y < buttons.length; y++) {
+                            if(buttons[x][y].equals(button))
+                                break All;
+                        }
+                    }
+                    writer.println(x);
+                    writer.println(y);
+
+
+                    if (checkGameOver()) {
+                        if (myTurn) {
+                            /* TODO I won! */
+                            System.out.println("wee");
+                        } else {
+                            /* TODO opponent won */
+                            System.out.println("ahh");
+                        }
+                    }
+                    focusSendText();
                 });
             }
         }
+    }
+
+    @FXML
+    private void handleEnter (Event e){
+        PrintWriter writer;
+        try {
+            writer = new PrintWriter(connection.getOutputStream(), true);
+        } catch (IOException e1) {
+            return;
+        }
+        writer.println(chatInput.getText());
+        chatField.appendText(chatInput.getText() + "\n");
+        chatInput.setText("");
+    }
+
+    private boolean checkGameOver() {
+        /* TODO check if the game is over */
+        return false;
     }
 
     public void initializeSocket(Socket socket){
@@ -72,71 +128,33 @@ public class GameController implements Initializable {
             dataIncome = new Scanner(connection.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            //se for windows, deleta o System32 =)
-            //se for linux, execute "rm -rf /" sem as aspas =)
+            /* TODO handle exception gracefully */
             return;
-        }
-        class ChatHandler implements Runnable{
-            Scanner dataIncome;
-            boolean myTurn;
-            Button[][] buttons;
-            TextArea chatField;
-
-            public ChatHandler(Scanner dataIncome, boolean myTurn, Button[][] buttons, TextArea chatField){
-                this.dataIncome = dataIncome;
-                this.myTurn = myTurn;
-                this.buttons = buttons;
-                this.chatField = chatField;
-            }
-
-            @Override
-            public void run() {
-                while(dataIncome.hasNext()){
-                    String message = dataIncome.nextLine();
-                    if(message.startsWith(gameCommand) && !myTurn){
-                        myTurn = !myTurn;
-                        Scanner stringParser = new Scanner(message).useDelimiter("#");
-                        stringParser.next();
-
-                        int i = stringParser.nextInt();
-                        int j = stringParser.nextInt();
-
-                        if(!buttons[i][j].isDisabled())
-                            buttons[i][j].fire();
-
-                        stringParser.close();
-
-                    }else{
-                        chatField.appendText(message);
-                    }
-                }
-                dataIncome.close();
-            }
         }
         Thread handleCommunication = new Thread(() -> {
             while(dataIncome.hasNext()){
                 String message = dataIncome.nextLine();
                 if(message.startsWith(gameCommand) && !myTurn){
                     myTurn = !myTurn;
-                    Scanner stringParser = new Scanner(message).useDelimiter("#");
-                    stringParser.next();
+                    int i = dataIncome.nextInt();
+                    int j = dataIncome.nextInt();
 
-                    int i = stringParser.nextInt();
-                    int j = stringParser.nextInt();
-
-                    if(!buttons[i][j].isDisabled())
-                        buttons[i][j].fire();
-
-                    stringParser.close();
-
+                    buttons[i][j].fire();
                 }else{
-                    chatField.appendText(message);
+                    chatField.appendText(message + "\n");
                 }
             }
             dataIncome.close();
         });
-//        Thread handleCommunication = new Thread(new ChatHandler(dataIncome, myTurn, buttons, chatField));
         handleCommunication.setDaemon(true);
         handleCommunication.start();
+    }
+
+    public void setMyTurn(boolean turn){
+        myTurn = turn;
+        this.turn = turn;
+    }
+    public void focusSendText() {
+        chatInput.requestFocus();
     }
 }

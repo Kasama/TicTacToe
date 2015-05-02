@@ -1,5 +1,6 @@
 package com.usp.icmc.tictactoe;
 
+import com.sun.corba.se.spi.orbutil.threadpool.ThreadPool;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.stage.WindowEvent;
 
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Main extends Application {
 
@@ -23,9 +25,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
         loader.<HostConnectController>getController().updateHostIPAddress();
-        primaryStage.setOnCloseRequest(event -> {
-            Platform.exit();
-        });
+        primaryStage.setOnCloseRequest(event -> Platform.exit());
     }
 
 
