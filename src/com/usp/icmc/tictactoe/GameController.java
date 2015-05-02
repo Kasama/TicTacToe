@@ -11,7 +11,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -21,17 +20,12 @@ import java.util.Scanner;
 
 public class GameController implements Initializable {
     private Button[][] buttons;
-    static final String gameCommand = "command";
+    static final String gameCommand = "casoiehcsliuaseavsnufhaiushvnfoisduhacnshfnijsbhidj";
     private Socket connection;
 
-    @FXML
-    private GridPane gridPane;
-
-    @FXML
-    private TextArea chatField;
-
-    @FXML
-    private TextField chatInput;
+    @FXML private GridPane gridPane;
+    @FXML private TextArea chatField;
+    @FXML private TextField chatInput;
 
     private boolean myTurn;
     private boolean turn;
@@ -71,6 +65,15 @@ public class GameController implements Initializable {
                     Button button = ((Button) event.getSource());
                     button.setDisable(true);
                     button.getStyleClass().add(getStyle(turn));
+                    if (checkGameOver()) {
+                        if (myTurn) {
+                            /* TODO I won! */
+                            System.out.println("wee");
+                        } else {
+                            /* TODO opponent won */
+                            System.out.println("ahh");
+                        }
+                    }
                     if(!turn) {
                         myTurn = !myTurn;
                         turn = true;
@@ -92,24 +95,10 @@ public class GameController implements Initializable {
 //                    writer.flush();
 
 
-                    if (checkGameOver()) {
-                        if (myTurn) {
-                            /* TODO I won! */
-                            System.out.println("wee");
-                        } else {
-                            /* TODO opponent won */
-                            System.out.println("ahh");
-                        }
-                    }
                     focusSendText();
                 });
             }
         }
-    }
-
-    private String getStyle(boolean turn) {
-        /* TODO add a nice manager to styles */
-        return turn?"buttonPressedO":"buttonPressedX";
     }
 
     @FXML
@@ -127,8 +116,20 @@ public class GameController implements Initializable {
         chatInput.setText("");
     }
 
+    private String getStyle(boolean turn) {
+        /* TODO add a nice manager to styles */
+        return turn?"buttonPressedO":"buttonPressedX";
+    }
+
     private boolean checkGameOver() {
         /* TODO check if the game is over */
+        boolean over = false;
+        // test for each row
+        for (int i = 0; i < buttons.length; i++) {
+            for (int j = 0; j < buttons[i].length; j++) {
+
+            }
+        }
         return false;
     }
 
@@ -167,6 +168,7 @@ public class GameController implements Initializable {
         myTurn = turn;
         this.turn = turn;
     }
+
     public void focusSendText() {
         try {
             chatInput.requestFocus();
