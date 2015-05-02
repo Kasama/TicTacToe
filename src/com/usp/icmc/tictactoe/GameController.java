@@ -85,6 +85,7 @@ public class GameController implements Initializable {
                     }
                     writer.println(x);
                     writer.println(y);
+                    writer.flush();
 
 
                     if (checkGameOver()) {
@@ -155,6 +156,9 @@ public class GameController implements Initializable {
         this.turn = turn;
     }
     public void focusSendText() {
-        chatInput.requestFocus();
+        try {
+            chatInput.requestFocus();
+        } catch (Exception ignored) {
+        }
     }
 }
