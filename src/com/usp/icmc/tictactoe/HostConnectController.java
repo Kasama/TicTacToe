@@ -88,7 +88,7 @@ public class HostConnectController {
                                 System.err.println("Not possible to close the socket");
                             }
                         }
-                    },6000
+                    },10000
             );
         });
         handleServerAcceptanceTimeout.setDaemon(true);
@@ -105,10 +105,10 @@ public class HostConnectController {
             } catch (IOException ioException) {
                 /* TODO dialog to say that server got fucked up*/
                 return;
+            } finally {
+                timer.cancel();
+                handleServerAcceptanceTimeout.interrupt();
             }
-            System.out.println(this.toString());
-            timer.cancel();
-            handleServerAcceptanceTimeout.interrupt();
 
             Platform.runLater(() -> {
                 System.out.println(this.toString());

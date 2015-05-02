@@ -14,19 +14,19 @@
 
 .text-area{
     -fx-border-color: #585858;
-    -fx-border-width: 0;
+    -fx-background-color: #585858, #585858, #585858;
+    /*-fx-border-width: 0.1;*/
 }
 
-.text-box:focused {
-    -fx-background-color: -fx-focus-color, -fx-text-box-border, -fx-control-inner-background;
-    -fx-background-radius: 0, 0, 0;
-    -fx-background-insets: 0, 0, 0;
+.text-area:focused {
+    /*-fx-background-color: -fx-focus-color, -fx-text-box-border, -fx-control-inner-background;*/
+    -fx-background-color: #585858, #585858, #585858;
+    /*-fx-border-width: 0.1;*/
 }
 
 .text-area .content{
     -fx-background-color: #585858;
     -fx-text-fill: #E8E8E8;
-    -fx-border-width: 0;
 }
 
 .radio-button{
@@ -56,12 +56,12 @@
 
 .gameButton{
     -fx-border-width: 5px;
-    -fx-background-color: #DC9656;
+    -fx-background-color: #A1B56C;
     -fx-text-fill: #383838;
 }
 .gameButton:hover{
     -fx-border-width: 5px;
-    -fx-background-color: #F7CA88;
+    -fx-background-color: derive( #A1B56C, -40% );
     -fx-text-fill: #383838;
 }
 

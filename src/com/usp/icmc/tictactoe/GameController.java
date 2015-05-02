@@ -58,21 +58,25 @@ public class GameController implements Initializable {
                 gridPane.add(b, j, i);
                 buttons[i][j] = b;
 
-//                b.setDisable(true);
-
                 b.setOnAction(event -> {
                     if (!myTurn)
                         return;
                     PrintWriter writer = null;
                     try {
-                        writer = new PrintWriter(connection.getOutputStream());
+                        writer = new PrintWriter(connection.getOutputStream(), true);
                     } catch (IOException e) {
                         return;
                     }
                     myTurn = !myTurn;
                     Button button = ((Button) event.getSource());
                     button.setDisable(true);
-                    button.getStyleClass().add(turn ? "buttonPressedO" : "buttonPressedX");
+                    button.getStyleClass().add(getStyle(turn));
+                    if(!turn) {
+                        myTurn = !myTurn;
+                        turn = true;
+                        return;
+                    }
+                    turn = !turn;
                     writer.println(gameCommand);
 
                     int x = 0, y = 0;
@@ -85,7 +89,7 @@ public class GameController implements Initializable {
                     }
                     writer.println(x);
                     writer.println(y);
-                    writer.flush();
+//                    writer.flush();
 
 
                     if (checkGameOver()) {
@@ -103,6 +107,11 @@ public class GameController implements Initializable {
         }
     }
 
+    private String getStyle(boolean turn) {
+        /* TODO add a nice manager to styles */
+        return turn?"buttonPressedO":"buttonPressedX";
+    }
+
     @FXML
     private void handleEnter (Event e){
         PrintWriter writer;
@@ -111,6 +120,8 @@ public class GameController implements Initializable {
         } catch (IOException e1) {
             return;
         }
+        if (chatInput.getText().equals(""))
+            return;
         writer.println(chatInput.getText());
         chatField.appendText(chatInput.getText() + "\n");
         chatInput.setText("");
@@ -136,10 +147,11 @@ public class GameController implements Initializable {
             while(dataIncome.hasNext()){
                 String message = dataIncome.nextLine();
                 if(message.startsWith(gameCommand) && !myTurn){
-                    myTurn = !myTurn;
                     int i = dataIncome.nextInt();
                     int j = dataIncome.nextInt();
 
+                    if(!(buttons[i][j].isDisable()))
+                        myTurn = !myTurn;
                     buttons[i][j].fire();
                 }else{
                     chatField.appendText(message + "\n");
