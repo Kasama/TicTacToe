@@ -40,6 +40,9 @@ public class GameController implements Initializable {
     // Game variables
     private boolean canClick;
     private boolean turn;
+    private String myStyle;
+    private String opponentStyle;
+    private String nickName;
 
     @Override // Method ran upon load. Used to generate the buttons
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,6 +73,22 @@ public class GameController implements Initializable {
                 b.setOnAction(new buttonHandler());
             }
         }
+    }
+
+    // Gets the style to use from previous scene
+    public void setIcon(String icon) {
+        if (icon.startsWith("X")){
+            this.myStyle = XStyle;
+            this.opponentStyle = OStyle;
+        }else{
+            this.myStyle = OStyle;
+            this.opponentStyle = XStyle;
+        }
+    }
+
+    // Gets the nickname, from previous scene
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     // Inner class to handle the button presses
@@ -140,6 +159,7 @@ public class GameController implements Initializable {
         }
     }
 
+    // Method that checks if the board is full
     private boolean isBoardFull() {
         for(Button[] button : buttons) {
             for (Button b : button)
@@ -159,16 +179,14 @@ public class GameController implements Initializable {
         if (chatInput.getText().equals(""))
             return;
         // append text to own chat and send it to opponent
-        // TODO add nicknames
-        writer.println("[Opponent]: " + chatInput.getText());
+        writer.println("["+nickName+"]: " + chatInput.getText());
         chatField.appendText("[You]: " + chatInput.getText() + "\n");
         chatInput.setText("");
     }
 
     // Returns the style class to use based on turn
     private String getStyle(boolean turn) {
-        // TODO add option to be X or O
-        return turn ? OStyle : XStyle;
+        return turn ? myStyle : opponentStyle;
     }
 
     // Function to check every game over scenario
@@ -235,7 +253,6 @@ public class GameController implements Initializable {
                 )
             return true;
 
-        // TODO draw
         return false;
     }
 

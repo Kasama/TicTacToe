@@ -24,7 +24,11 @@ public class HostConnectController {
     private final long timeout = 6000;
 
     // Screen objects
+    @FXML private RadioButton ORadio;
+    @FXML private RadioButton XRadio;
+    @FXML private TextField nicknameField;
     @FXML private ToggleGroup selectRadio;
+    @FXML private ToggleGroup iconRadio;
     @FXML private TextField hostPortText;
     @FXML private TextField hostIPText;
     @FXML private TextField connectIPText;
@@ -281,6 +285,8 @@ public class HostConnectController {
         gc.focusSendText();
         // Host always goes first and client goes second
         gc.setTurn(turn);
+        gc.setIcon(((RadioButton) iconRadio.getSelectedToggle()).getText());
+        gc.setNickName(nicknameField.getText());
 
     }
 
