@@ -109,6 +109,8 @@ public class GameController implements Initializable {
                 } else {
                     chatField.appendText("[Game]: You Lost!\n");
                 }
+            }else if(isBoardFull()){
+                chatField.appendText("[Game]: Draw!\n");
             }
             // if this event happened due to a chat command. end it here
             if (!turn) {
@@ -136,6 +138,14 @@ public class GameController implements Initializable {
             writer.println(y);
 
         }
+    }
+
+    private boolean isBoardFull() {
+        for(Button[] button : buttons) {
+            for (Button b : button)
+                if (!b.isDisable()) return false;
+        }
+        return true;
     }
 
     @FXML // Method called when enter is pressed on the chatInput field
@@ -225,6 +235,7 @@ public class GameController implements Initializable {
                 )
             return true;
 
+        // TODO draw
         return false;
     }
 
