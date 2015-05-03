@@ -76,3 +76,11 @@
     -fx-background-size: contain;
 }
 
+.dialog-pane:header .header-panel{
+    -fx-background-color: #383838;
+}
+
+.dialog-pane .label{
+    -fx-text-fill: #B8B8B8;
+}
+

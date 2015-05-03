@@ -37,7 +37,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
       </TextField>
-      <ProgressIndicator fx:id="hostIndicator" opacity="0.0" prefHeight="24.0" prefWidth="16.0"/>
+      <ProgressIndicator fx:id="hostIndicator" visible="false" prefHeight="24.0" prefWidth="16.0"/>
       <Button fx:id="hostButton" mnemonicParsing="false" onAction="#waitForConnection" text="Host">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="6.0" top="5.0"/>

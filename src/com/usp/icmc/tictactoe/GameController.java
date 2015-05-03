@@ -1,6 +1,7 @@
 package com.usp.icmc.tictactoe;
 
 
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,10 +21,11 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class GameController implements Initializable {
-    private Button[][] buttons;
-    static final String gameCommand = "casoiehcsliuaseavsnufhaiushvnfoisduhacnshfnijsbhidj";
+    static final String gameCommand
+            = "casoiehcsliuaseavsnufhaiushvnfoisduhacnshfnijsbhidj";
     static final String XStyle = "buttonPressedX";
     static final String OStyle = "buttonPressedO";
+    private Button[][] buttons;
     private Socket connection;
 
     @FXML private GridPane gridPane;
@@ -50,7 +52,7 @@ public class GameController implements Initializable {
                 b.setMaxHeight(Double.MAX_VALUE);
                 b.setMaxWidth(Double.MAX_VALUE);
                 b.getStyleClass().add("gameButton");
-                GridPane.setMargin(b, new Insets(1d, 1d, 1d, 1d));
+                GridPane.setMargin(b, new Insets(5d, 5d, 5d, 5d));
 
                 gridPane.add(b, j, i);
                 buttons[i][j] = b;
@@ -60,10 +62,10 @@ public class GameController implements Initializable {
         }
     }
 
-    class buttonHandler implements EventHandler {
+    class buttonHandler implements EventHandler<ActionEvent> {
 
         @Override
-        public void handle(Event event) {
+        public void handle(ActionEvent event) {
             if (!myTurn)
                 return;
             PrintWriter writer;
@@ -77,8 +79,8 @@ public class GameController implements Initializable {
             button.setDisable(true);
             button.getStyleClass().add(getStyle(turn));
             if (checkGameOver()) {
-                for(Button[] button1 : buttons)
-                    for(Button button2 : button1)
+                for (Button[] button1 : buttons)
+                    for (Button button2 : button1)
                         button2.setDisable(true);
                 if (turn) {
                     chatField.appendText("You Won!\n");
@@ -86,7 +88,7 @@ public class GameController implements Initializable {
                     chatField.appendText("You Lost!\n");
                 }
             }
-            if(!turn) {
+            if (!turn) {
                 myTurn = !myTurn;
                 turn = true;
                 return;
@@ -94,24 +96,24 @@ public class GameController implements Initializable {
             turn = !turn;
             writer.println(gameCommand);
 
-            int x = 0, y = 0;
+            int x, y = 0;
             All:
-            for (x = 0; x < buttons.length ; x++) {
+            for (x = 0; x < buttons.length; x++) {
                 for (y = 0; y < buttons.length; y++) {
-                    if(buttons[x][y].equals(button))
+                    if (buttons[x][y].equals(button))
                         break All;
                 }
             }
             writer.println(x);
+            //noinspection SuspiciousNameCombination
             writer.println(y);
 
             focusSendText();
         }
-
     }
 
     @FXML
-    private void handleEnter (Event e){
+    private void handleEnter(Event e) {
         PrintWriter writer;
         try {
             writer = new PrintWriter(connection.getOutputStream(), true);
@@ -126,7 +128,7 @@ public class GameController implements Initializable {
     }
 
     private String getStyle(boolean turn) {
-        return turn?OStyle:XStyle;
+        return turn ? OStyle : XStyle;
     }
 
     private boolean checkGameOver() {
@@ -136,13 +138,13 @@ public class GameController implements Initializable {
                     buttons[i][0].getStyleClass().contains(OStyle) &&
                     buttons[i][1].getStyleClass().contains(OStyle) &&
                     buttons[i][2].getStyleClass().contains(OStyle)
-                )
+                    )
                 return true;
             else if (
                     buttons[0][i].getStyleClass().contains(OStyle) &&
                     buttons[1][i].getStyleClass().contains(OStyle) &&
                     buttons[2][i].getStyleClass().contains(OStyle)
-                )
+                    )
                 return true;
         }
         // test for each row to O
@@ -151,13 +153,13 @@ public class GameController implements Initializable {
                     buttons[i][0].getStyleClass().contains(XStyle) &&
                     buttons[i][1].getStyleClass().contains(XStyle) &&
                     buttons[i][2].getStyleClass().contains(XStyle)
-                )
+                    )
                 return true;
             else if (
                     buttons[0][i].getStyleClass().contains(XStyle) &&
                     buttons[1][i].getStyleClass().contains(XStyle) &&
                     buttons[2][i].getStyleClass().contains(XStyle)
-                )
+                    )
                 return true;
         }
 
@@ -165,32 +167,33 @@ public class GameController implements Initializable {
                 buttons[0][0].getStyleClass().contains(OStyle) &&
                 buttons[1][1].getStyleClass().contains(OStyle) &&
                 buttons[2][2].getStyleClass().contains(OStyle)
-            )
+                )
             return true;
         if (
                 buttons[0][0].getStyleClass().contains(XStyle) &&
                 buttons[1][1].getStyleClass().contains(XStyle) &&
                 buttons[2][2].getStyleClass().contains(XStyle)
-            )
+                )
             return true;
 
         if (
                 buttons[0][2].getStyleClass().contains(OStyle) &&
                 buttons[1][1].getStyleClass().contains(OStyle) &&
                 buttons[2][0].getStyleClass().contains(OStyle)
-            )
+                )
             return true;
+
         if (
                 buttons[0][2].getStyleClass().contains(XStyle) &&
                 buttons[1][1].getStyleClass().contains(XStyle) &&
                 buttons[2][0].getStyleClass().contains(XStyle)
-            )
+                )
             return true;
 
         return false;
     }
 
-    public void initializeSocket(Socket socket){
+    public void initializeSocket(Socket socket) {
 
         this.connection = socket;
         Scanner dataIncome;
@@ -200,27 +203,29 @@ public class GameController implements Initializable {
             System.err.println("Could not get connection socket");
             return;
         }
-        Thread handleCommunication = new Thread(() -> {
-            while(dataIncome.hasNext()){
-                String message = dataIncome.nextLine();
-                if(message.startsWith(gameCommand) && !myTurn){
-                    int i = dataIncome.nextInt();
-                    int j = dataIncome.nextInt();
+        Thread handleCommunication = new Thread(
+                () -> {
+                    while (dataIncome.hasNext()) {
+                        String message = dataIncome.nextLine();
+                        if (message.startsWith(gameCommand) && !myTurn) {
+                            int i = dataIncome.nextInt();
+                            int j = dataIncome.nextInt();
 
-                    if(!(buttons[i][j].isDisable()))
-                        myTurn = !myTurn;
-                    buttons[i][j].fire();
-                }else{
-                    chatField.appendText(message + "\n");
+                            if (!(buttons[i][j].isDisable()))
+                                myTurn = !myTurn;
+                            buttons[i][j].fire();
+                        } else {
+                            chatField.appendText(message + "\n");
+                        }
+                    }
+                    dataIncome.close();
                 }
-            }
-            dataIncome.close();
-        });
+        );
         handleCommunication.setDaemon(true);
         handleCommunication.start();
     }
 
-    public void setMyTurn(boolean turn){
+    public void setMyTurn(boolean turn) {
         myTurn = turn;
         this.turn = turn;
     }
@@ -231,4 +236,5 @@ public class GameController implements Initializable {
         } catch (Exception ignored) {
         }
     }
+
 }
