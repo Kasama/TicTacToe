@@ -2,6 +2,7 @@ package com.usp.icmc.tictactoe;
 
 
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -21,6 +22,8 @@ import java.util.Scanner;
 public class GameController implements Initializable {
     private Button[][] buttons;
     static final String gameCommand = "casoiehcsliuaseavsnufhaiushvnfoisduhacnshfnijsbhidj";
+    static final String XStyle = "buttonPressedX";
+    static final String OStyle = "buttonPressedO";
     private Socket connection;
 
     @FXML private GridPane gridPane;
@@ -52,53 +55,59 @@ public class GameController implements Initializable {
                 gridPane.add(b, j, i);
                 buttons[i][j] = b;
 
-                b.setOnAction(event -> {
-                    if (!myTurn)
-                        return;
-                    PrintWriter writer = null;
-                    try {
-                        writer = new PrintWriter(connection.getOutputStream(), true);
-                    } catch (IOException e) {
-                        return;
-                    }
-                    myTurn = !myTurn;
-                    Button button = ((Button) event.getSource());
-                    button.setDisable(true);
-                    button.getStyleClass().add(getStyle(turn));
-                    if (checkGameOver()) {
-                        if (myTurn) {
-                            /* TODO I won! */
-                            System.out.println("wee");
-                        } else {
-                            /* TODO opponent won */
-                            System.out.println("ahh");
-                        }
-                    }
-                    if(!turn) {
-                        myTurn = !myTurn;
-                        turn = true;
-                        return;
-                    }
-                    turn = !turn;
-                    writer.println(gameCommand);
-
-                    int x = 0, y = 0;
-                    All:
-                    for (x = 0; x < buttons.length ; x++) {
-                        for (y = 0; y < buttons.length; y++) {
-                            if(buttons[x][y].equals(button))
-                                break All;
-                        }
-                    }
-                    writer.println(x);
-                    writer.println(y);
-//                    writer.flush();
-
-
-                    focusSendText();
-                });
+                b.setOnAction(new buttonHandler());
             }
         }
+    }
+
+    class buttonHandler implements EventHandler {
+
+        @Override
+        public void handle(Event event) {
+            if (!myTurn)
+                return;
+            PrintWriter writer;
+            try {
+                writer = new PrintWriter(connection.getOutputStream(), true);
+            } catch (IOException e) {
+                return;
+            }
+            myTurn = !myTurn;
+            Button button = ((Button) event.getSource());
+            button.setDisable(true);
+            button.getStyleClass().add(getStyle(turn));
+            if (checkGameOver()) {
+                for(Button[] button1 : buttons)
+                    for(Button button2 : button1)
+                        button2.setDisable(true);
+                if (turn) {
+                    chatField.appendText("You Won!\n");
+                } else {
+                    chatField.appendText("You Lost!\n");
+                }
+            }
+            if(!turn) {
+                myTurn = !myTurn;
+                turn = true;
+                return;
+            }
+            turn = !turn;
+            writer.println(gameCommand);
+
+            int x = 0, y = 0;
+            All:
+            for (x = 0; x < buttons.length ; x++) {
+                for (y = 0; y < buttons.length; y++) {
+                    if(buttons[x][y].equals(button))
+                        break All;
+                }
+            }
+            writer.println(x);
+            writer.println(y);
+
+            focusSendText();
+        }
+
     }
 
     @FXML
@@ -117,19 +126,67 @@ public class GameController implements Initializable {
     }
 
     private String getStyle(boolean turn) {
-        /* TODO add a nice manager to styles */
-        return turn?"buttonPressedO":"buttonPressedX";
+        return turn?OStyle:XStyle;
     }
 
     private boolean checkGameOver() {
-        /* TODO check if the game is over */
-        boolean over = false;
-        // test for each row
+        // test for each row to X
         for (int i = 0; i < buttons.length; i++) {
-            for (int j = 0; j < buttons[i].length; j++) {
-
-            }
+            if (
+                    buttons[i][0].getStyleClass().contains(OStyle) &&
+                    buttons[i][1].getStyleClass().contains(OStyle) &&
+                    buttons[i][2].getStyleClass().contains(OStyle)
+                )
+                return true;
+            else if (
+                    buttons[0][i].getStyleClass().contains(OStyle) &&
+                    buttons[1][i].getStyleClass().contains(OStyle) &&
+                    buttons[2][i].getStyleClass().contains(OStyle)
+                )
+                return true;
         }
+        // test for each row to O
+        for (int i = 0; i < buttons.length; i++) {
+            if (
+                    buttons[i][0].getStyleClass().contains(XStyle) &&
+                    buttons[i][1].getStyleClass().contains(XStyle) &&
+                    buttons[i][2].getStyleClass().contains(XStyle)
+                )
+                return true;
+            else if (
+                    buttons[0][i].getStyleClass().contains(XStyle) &&
+                    buttons[1][i].getStyleClass().contains(XStyle) &&
+                    buttons[2][i].getStyleClass().contains(XStyle)
+                )
+                return true;
+        }
+
+        if (
+                buttons[0][0].getStyleClass().contains(OStyle) &&
+                buttons[1][1].getStyleClass().contains(OStyle) &&
+                buttons[2][2].getStyleClass().contains(OStyle)
+            )
+            return true;
+        if (
+                buttons[0][0].getStyleClass().contains(XStyle) &&
+                buttons[1][1].getStyleClass().contains(XStyle) &&
+                buttons[2][2].getStyleClass().contains(XStyle)
+            )
+            return true;
+
+        if (
+                buttons[0][2].getStyleClass().contains(OStyle) &&
+                buttons[1][1].getStyleClass().contains(OStyle) &&
+                buttons[2][0].getStyleClass().contains(OStyle)
+            )
+            return true;
+        if (
+                buttons[0][2].getStyleClass().contains(XStyle) &&
+                buttons[1][1].getStyleClass().contains(XStyle) &&
+                buttons[2][0].getStyleClass().contains(XStyle)
+            )
+            return true;
+
         return false;
     }
 
@@ -140,8 +197,7 @@ public class GameController implements Initializable {
         try {
             dataIncome = new Scanner(connection.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
-            /* TODO handle exception gracefully */
+            System.err.println("Could not get connection socket");
             return;
         }
         Thread handleCommunication = new Thread(() -> {

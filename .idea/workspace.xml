@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="added wdr">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/TicTacToe/com/usp/icmc/tictactoe/Main.class" afterPath="$PROJECT_DIR$/out/production/TicTacToe/com/usp/icmc/tictactoe/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/GameController.java" afterPath="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/GameController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectController.java" afterPath="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/res/gameStyle.css" afterPath="$PROJECT_DIR$/src/res/gameStyle.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -76,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+              <caret line="112" column="24" selection-start-line="112" selection-start-column="24" selection-end-line="112" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#setRadioHost#0;class#HostConnectController#0" expanded="false" />
@@ -89,9 +89,17 @@
       <file leaf-file-name="GameController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/GameController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.46370023">
-              <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.4847775">
+              <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+              <folding>
+                <element signature="method#initialize#0;class#GameController#0" expanded="false" />
+                <element signature="class#buttonHandler#0;class#GameController#0" expanded="false" />
+                <element signature="method#handleEnter#0;class#GameController#0" expanded="false" />
+                <element signature="method#checkGameOver#0;class#GameController#0" expanded="false" />
+                <element signature="method#initializeSocket#0;class#GameController#0" expanded="false" />
+                <element signature="method#setMyTurn#0;class#GameController#0" expanded="false" />
+                <element signature="method#focusSendText#0;class#GameController#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,27 +114,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HostConnectScene.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectScene.fxml">
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.4642856">
-              <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="48" selection-start-line="27" selection-start-column="48" selection-end-line="27" selection-end-column="48" />
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#925#948#0" expanded="true" />
+                <element signature="e#611#634#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -168,9 +163,9 @@
         <option value="$PROJECT_DIR$/src/res/buttonStyle.css" />
         <option value="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/gameScene.fxml" />
         <option value="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectScene.fxml" />
-        <option value="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/Main.java" />
         <option value="$PROJECT_DIR$/src/res/gameStyle.css" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_1" />
+        <option value="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/Main.java" />
         <option value="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectController.java" />
         <option value="$PROJECT_DIR$/src/com/usp/icmc/tictactoe/GameController.java" />
       </list>
@@ -609,7 +604,8 @@
       <workItem from="1430347477963" duration="2456000" />
       <workItem from="1430361192008" duration="812000" />
       <workItem from="1430521029368" duration="18084000" />
-      <workItem from="1430584503232" duration="6980000" />
+      <workItem from="1430584503232" duration="7910000" />
+      <workItem from="1430620686762" duration="5694000" />
     </task>
     <task id="LOCAL-00001" summary="added CSS and basic chat">
       <created>1430545107121</created>
@@ -623,11 +619,23 @@
       <option name="project" value="LOCAL" />
       <updated>1430584881182</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fixed turns, game is playable!">
+      <created>1430593157730</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1430593157730</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fixed turns, game is playable!">
+      <created>1430593904979</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1430593904979</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29634000" />
+    <option name="totallyTimeSpent" value="36258000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -651,7 +659,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31905466" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3264402" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293944" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32791728" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24924472" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930514" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -686,11 +694,12 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added CSS and basic chat" />
     <MESSAGE value="added writer.flush() and a exception catch" />
-    <option name="LAST_COMMIT_MESSAGE" value="added writer.flush() and a exception catch" />
+    <MESSAGE value="fixed turns, game is playable!" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed turns, game is playable!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -699,6 +708,18 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#setRadioHost#0;class#HostConnectController#0" expanded="false" />
+            <element signature="method#setRadioConnect#0;class#HostConnectController#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -720,14 +741,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectScene.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/Main.java">
@@ -736,20 +757,20 @@
           <caret line="27" column="48" selection-start-line="27" selection-start-column="48" selection-end-line="27" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#925#948#0" expanded="true" />
+            <element signature="e#611#634#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/gameScene.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
@@ -773,7 +794,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#initialize#0;class#GameController#0" expanded="false" />
+            <element signature="class#buttonHandler#0;class#GameController#0" expanded="false" />
+            <element signature="method#handleEnter#0;class#GameController#0" expanded="false" />
+            <element signature="method#checkGameOver#0;class#GameController#0" expanded="false" />
+            <element signature="method#initializeSocket#0;class#GameController#0" expanded="false" />
+            <element signature="method#setMyTurn#0;class#GameController#0" expanded="false" />
+            <element signature="method#focusSendText#0;class#GameController#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -837,14 +866,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/popUpDialogBox.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/ThreadController.java">
@@ -902,7 +930,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -920,43 +947,20 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/gameScene.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.09485531">
           <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="48" selection-start-line="27" selection-start-column="48" selection-end-line="27" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#925#948#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectScene.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4642856">
-          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.83076924">
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -964,10 +968,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.29039812">
           <caret line="271" column="29" selection-start-line="271" selection-start-column="12" selection-end-line="271" selection-end-column="30" />
-          <folding>
-            <element signature="e#9485#9486#0" expanded="true" />
-            <element signature="e#9519#9520#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -976,20 +976,30 @@
         <state vertical-scroll-proportion="0.4028103">
           <caret line="82" column="23" selection-start-line="82" selection-start-column="23" selection-end-line="82" selection-end-column="23" />
           <folding>
-            <element signature="e#2657#2658#0" expanded="true" />
-            <element signature="e#2704#2705#0" expanded="true" />
+            <element signature="e#2657#2658#0" expanded="false" />
+            <element signature="e#2704#2705#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectController.java">
+    <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectScene.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15594855">
+          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#setRadioHost#0;class#HostConnectController#0" expanded="false" />
-            <element signature="method#setRadioConnect#0;class#HostConnectController#0" expanded="false" />
+            <element signature="e#611#634#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1002,11 +1012,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/HostConnectController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="112" column="24" selection-start-line="112" selection-start-column="24" selection-end-line="112" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#setRadioHost#0;class#HostConnectController#0" expanded="false" />
+            <element signature="method#setRadioConnect#0;class#HostConnectController#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/usp/icmc/tictactoe/GameController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46370023">
-          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.4847775">
+          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+          <folding>
+            <element signature="method#initialize#0;class#GameController#0" expanded="false" />
+            <element signature="class#buttonHandler#0;class#GameController#0" expanded="false" />
+            <element signature="method#handleEnter#0;class#GameController#0" expanded="false" />
+            <element signature="method#checkGameOver#0;class#GameController#0" expanded="false" />
+            <element signature="method#initializeSocket#0;class#GameController#0" expanded="false" />
+            <element signature="method#setMyTurn#0;class#GameController#0" expanded="false" />
+            <element signature="method#focusSendText#0;class#GameController#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

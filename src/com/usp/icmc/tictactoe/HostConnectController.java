@@ -118,26 +118,6 @@ public class HostConnectController {
         });
         handleServerAcceptance.setDaemon(true);
         handleServerAcceptance.start();
-//        Stage stage = ((Stage) ((Button) e.getSource()).getScene().getWindow());
-//        new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                Socket connection;
-//                try {
-//                    connection = socket.accept();
-//                } catch (SocketException socketException) {
-//                    System.out.println("closed socket");
-//                    return null;
-//                } catch (IOException ioException) {
-//                    /* TODO */
-//                    return null;
-//                }
-//
-//                System.out.println("got a socket");
-//                changeToGameScene(stage, connection);
-//                return null;
-//            }
-//        };
 
     }
 
