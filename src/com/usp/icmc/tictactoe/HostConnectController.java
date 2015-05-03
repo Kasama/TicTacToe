@@ -1,8 +1,6 @@
 package com.usp.icmc.tictactoe;
 
-import com.sun.jnlp.ApiDialog;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +17,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class HostConnectController {
+
+    private final double gameWidth = 800;
+    private final double gameHeight = 600;
+    private final long timeout = 6000;
+
     @FXML public ToggleGroup selectRadio;
     @FXML private TextField hostPortText;
     @FXML private TextField hostIPText;
@@ -30,10 +33,7 @@ public class HostConnectController {
     @FXML private Button connectButton;
     @FXML private ProgressIndicator hostIndicator;
 
-    private final double gameWidth = 800;
-    private final double gameHeight = 600;
     private Socket connection;
-    private ThreadGroup threadGroup;
 
     @FXML
     private void setRadioHost(Event e) {
@@ -58,114 +58,139 @@ public class HostConnectController {
 
         int port;
         final ServerSocket socket;
-        threadGroup = new ThreadGroup("AcceptConnection");
 
         try {
             port = getPortFromTextField(hostPortText);
         } catch (NumberFormatException numberFormatException) {
-            /* TODO dialog to show that the entered port is invalid*/
-            System.out.println("Invalid port number");
+            showDialog(
+                    "Invalid Port", "Warning:",
+                    "Invalid port number: " + hostPortText.getText(),
+                    Alert.AlertType.WARNING, ButtonType.OK
+            );
+            System.err.println("Invalid port number");
             return;
         }
 
         try {
             socket = new ServerSocket(port);
         } catch (IOException ioException) {
-            /* TODO shouldn't happen since the port is checked above*/
+            showDialog(
+                    "Could not open port", "Error:",
+                    "Could not open port: " + port + ", maybe it's in use",
+                    Alert.AlertType.ERROR, ButtonType.OK
+            );
+            System.err.println("Could not open port " + port);
             return;
         }
 
         Timer timer = new Timer();
-        Thread handleServerAcceptanceTimeout = new Thread(threadGroup, () -> {
-            timer.schedule(
-                    new TimerTask() {
-                        @Override
-                        public void run() {
-                            try {
-                                socket.close();
-                                hostIndicator.setOpacity(0d);
-                            } catch (IOException ioException) {
-                                System.err.println("Not possible to close the socket");
-                            }
-                        }
-                    },10000
-            );
-        });
+        Thread handleServerAcceptanceTimeout = new Thread(
+                () -> {
+                    timer.schedule(
+                            new TimerTask() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        socket.close();
+                                        hostIndicator.setVisible(false);
+                                    } catch (IOException ioException) {
+                                        System.err.println(
+                                                "Not possible to close the socket"
+                                        );
+                                    }
+                                }
+                            }, timeout
+                    );
+                }
+        );
         handleServerAcceptanceTimeout.setDaemon(true);
         handleServerAcceptanceTimeout.start();
 
-        hostIndicator.setOpacity(1d);
+        hostIndicator.setVisible(true);
         Stage stage = ((Stage) ((Button) e.getSource()).getScene().getWindow());
-        Thread handleServerAcceptance = new Thread(threadGroup, () -> {
-            try {
-                connection = socket.accept();
-            } catch (SocketException socketException) {
-                System.out.println("closed socket");
-                return;
-            } catch (IOException ioException) {
-                /* TODO dialog to say that server got fucked up*/
-                return;
-            } finally {
-                timer.cancel();
-                handleServerAcceptanceTimeout.interrupt();
-            }
+        Thread handleServerAcceptance = new Thread(
+                () -> {
+                    try {
+                        connection = socket.accept();
+                    } catch (SocketException socketException) {
+                        Platform.runLater(
+                                () -> showDialog(
+                                        "Connection Timeout", "Information",
+                                        "Your connection timed out, click 'host' again",
+                                        Alert.AlertType.INFORMATION,
+                                        ButtonType.OK
+                                )
+                        );
+                        return;
+                    } catch (IOException ioException) {
+                        Platform.runLater(
+                                () -> showDialog(
+                                        "hosting problem", "Error",
+                                        "There was an error while trying to host a connection",
+                                        Alert.AlertType.ERROR, ButtonType.OK
+                                )
+                        );
+                        return;
+                    } finally {
+                        timer.cancel();
+                        handleServerAcceptanceTimeout.interrupt();
+                    }
 
-            Platform.runLater(() -> {
-                System.out.println(this.toString());
-                changeToGameScene(stage, connection, true);
-            });
-            System.out.println("got a socket");
-        });
+                    Platform.runLater(
+                            () -> changeToGameScene(stage, connection, true)
+                    );
+                }
+        );
         handleServerAcceptance.setDaemon(true);
         handleServerAcceptance.start();
-//        Stage stage = ((Stage) ((Button) e.getSource()).getScene().getWindow());
-//        new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                Socket connection;
-//                try {
-//                    connection = socket.accept();
-//                } catch (SocketException socketException) {
-//                    System.out.println("closed socket");
-//                    return null;
-//                } catch (IOException ioException) {
-//                    /* TODO */
-//                    return null;
-//                }
-//
-//                System.out.println("got a socket");
-//                changeToGameScene(stage, connection);
-//                return null;
-//            }
-//        };
 
     }
 
+    private void showDialog(
+            String title, String header, String message, Alert.AlertType type,
+            ButtonType buttonType
+    ) {
+        Alert alert = new Alert(type, message, buttonType);
+        alert.getDialogPane().getStylesheets().add("/res/gameStyle.css");
+        alert.setHeaderText(header);
+        alert.setTitle(title);
+        alert.showAndWait();
+    }
+
     @FXML
-    private void connectToServer(Event e){
+    private void connectToServer(Event e) {
         String IP;
         int port;
 
         try {
             port = getPortFromTextField(connectPortText);
         } catch (NumberFormatException numberFormatException) {
-            /* TODO dialog to show that the entered port is invalid*/
+            showDialog(
+                    "Invalid Port", "Warning:",
+                    "Invalid port number: " + hostPortText.getText(),
+                    Alert.AlertType.WARNING, ButtonType.OK
+            );
             System.out.println("Invalid port number");
             return;
         }
 
         IP = connectIPText.getText();
 
-        System.out.println(IP + ":" + port);
         try {
             connection = new Socket(IP, port);
         } catch (UnknownHostException e1) {
-            /* TODO dialog to show that the ip is invalid*/
-            System.out.println("Unknown host");
+            showDialog(
+                    "Unknown host", "Error:",
+                    "Couldn't find rout to host " + connectIPText.getText(),
+                    Alert.AlertType.ERROR, ButtonType.OK
+            );
             return;
         } catch (IOException e1) {
-            /* TODO dialog to show that the server is not up*/
-            System.out.println("Other IOException");
+            showDialog(
+                    "Host not up", "Error:",
+                    "Host "+connectIPText.getText()+" is not up, maybe the port is wrong",
+                    Alert.AlertType.ERROR, ButtonType.OK
+            );
             return;
         }
 
@@ -181,19 +206,22 @@ public class HostConnectController {
         return port;
     }
 
-    private void changeToGameScene(Stage stage, boolean turn){
+    private void changeToGameScene(Stage stage, boolean turn) {
         changeToGameScene(stage, connection, turn);
     }
 
-    private void changeToGameScene(Stage stage, Socket connection, boolean turn) {
+    private void changeToGameScene(
+            Stage stage, Socket connection, boolean turn
+    ) {
 
         GameController gc;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("gameScene.fxml")
+        );
         Parent root;
         try {
             root = loader.load();
         } catch (IOException e) {
-            System.out.println("root null");
             e.printStackTrace();
             return;
         }
@@ -209,7 +237,13 @@ public class HostConnectController {
 
     public void updateHostIPAddress() {
         try {
-            hostIPText.setText(new BufferedReader(new InputStreamReader(new URL("http://checkip.amazonaws.com/").openStream())).readLine());
+            hostIPText.setText(
+                new BufferedReader(
+                    new InputStreamReader(
+                        new URL("http://checkip.amazonaws.com/") .openStream()
+                    )
+                ).readLine()
+            );
         } catch (IOException e) {
             hostIPText.setText("Failed to get IP");
         }
