@@ -11,12 +11,12 @@
       fx:controller="com.usp.icmc.tictactoe.GameController">
     <Label text="Tic Tac Toe">
         <font>
-          <Font size="61.0"/>
+            <Font size="61.0"/>
         </font>
     </Label>
     <Separator prefWidth="200.0">
         <VBox.margin>
-          <Insets left="5.0" right="5.0"/>
+            <Insets left="5.0" right="5.0"/>
         </VBox.margin>
     </Separator>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -47,8 +47,8 @@
             <HBox.margin>
                 <Insets left="5.0"/>
             </HBox.margin>
-            <TextArea fx:id="chatField" editable="false" focusTraversable="false" onMouseMoved="#focusSendText"
-                      onMousePressed="#focusSendText" onMouseReleased="#focusSendText" VBox.vgrow="ALWAYS">
+            <TextArea fx:id="chatField" editable="false" focusTraversable="false" onKeyPressed="#focusSendText"
+                      VBox.vgrow="ALWAYS">
                 <VBox.margin>
                     <Insets right="5.0" top="5.0"/>
                 </VBox.margin>
