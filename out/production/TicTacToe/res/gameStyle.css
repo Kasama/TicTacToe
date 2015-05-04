@@ -1,0 +1,84 @@
+.root {
+    -fx-background-color: #282828;
+    -fx-text-fill: #E8E8E8;
+}
+
+.label{
+    -fx-text-fill: linear-gradient(#A1B56C,#86C1B9);
+}
+
+.text-field{
+    -fx-background-color: #585858;
+    -fx-text-fill: #E8E8E8;
+}
+
+.text-area{
+    -fx-background-color: #585858;
+    -fx-text-fill: #E8E8E8;
+}
+
+.text-area:focused{
+    -fx-background-color: #585858;
+    -fx-text-fill: #E8E8E8;
+}
+
+.text-area .content{
+    -fx-background-color: #585858;
+    -fx-text-fill: #E8E8E8;
+}
+
+.radio-button{
+    -fx-text-fill: #86C1B9;
+}
+
+.button{
+    -fx-background-color: #7CAFC2;
+    /*-fx-background-color: linear-gradient(#7CAFC2, #BA8BAF);*/
+    -fx-text-fill: #383838;
+}
+
+.button:hover{
+    /*-fx-background-color: linear-gradient(#86C1B9, #BA8BAF);*/
+    -fx-background-color: #86C1B9;
+}
+
+.separator .line{
+    -fx-background: #181818;
+    -fx-border-width: 0.083333em; /* 1 */
+}
+
+.separator:vertical .line {
+    -fx-background-color: null;
+    -fx-padding: 0.0em 0.083333em 0.0em 0.0em; /* 0 1 0 0 */
+}
+
+.gameButton{
+    -fx-border-width: 5px;
+    -fx-background-color: #A1B56C;
+    -fx-text-fill: #383838;
+}
+.gameButton:hover{
+    -fx-border-width: 5px;
+    -fx-background-color: derive( #A1B56C, -40% );
+    -fx-text-fill: #383838;
+}
+
+.buttonPressedX{
+    -fx-background-image: url('Xv2.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain;
+}
+.buttonPressedO{
+    -fx-background-image: url('Ov2.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain;
+}
+
+.dialog-pane:header .header-panel{
+    -fx-background-color: #383838;
+}
+
+.dialog-pane .label{
+    -fx-text-fill: #B8B8B8;
+}
+
