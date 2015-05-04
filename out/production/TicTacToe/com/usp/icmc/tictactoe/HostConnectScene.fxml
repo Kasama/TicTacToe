@@ -48,18 +48,18 @@
       <VBox.margin>
          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
       </VBox.margin>
-      <TextField fx:id="hostIPText" alignment="CENTER" disable="true" promptText="Your IP">
+      <TextField fx:id="hostIPText" alignment="CENTER" disable="true" promptText="Your IP" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
       </TextField>
-      <TextField fx:id="hostPortText" alignment="CENTER" promptText="Port" text="1234">
+      <TextField fx:id="hostPortText" alignment="CENTER" promptText="Port" text="1234" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
       </TextField>
       <ProgressIndicator fx:id="hostIndicator" prefHeight="24.0" prefWidth="16.0" visible="false"/>
-      <Button fx:id="hostButton" mnemonicParsing="false" onAction="#waitForConnection" text="Host">
+      <Button fx:id="hostButton" mnemonicParsing="false" onAction="#waitForConnection" text="Host" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="6.0" top="5.0"/>
          </HBox.margin>
@@ -71,18 +71,18 @@
       <VBox.margin>
          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
       </VBox.margin>
-      <TextField fx:id="connectIPText" alignment="CENTER" disable="true" promptText="connect to IP" text="localhost">
+      <TextField fx:id="connectIPText" alignment="CENTER" disable="true" promptText="connect to IP" text="localhost" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
       </TextField>
-      <TextField fx:id="connectPortText" alignment="CENTER" disable="true" promptText="Port" text="1234">
+      <TextField fx:id="connectPortText" alignment="CENTER" disable="true" promptText="Port" text="1234" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
       </TextField>
       <Button fx:id="connectButton" disable="true" mnemonicParsing="false" onAction="#connectToServer"
-              text="Connect">
+              text="Connect" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>

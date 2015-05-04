@@ -1,20 +1,26 @@
 package com.usp.icmc.tictactoe;
 
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -152,6 +158,8 @@ public class GameController implements Initializable {
                 // set the turn before leaving
                 canClick = !canClick;
                 turn = true;
+                if(gameOver)
+                    checkPlayAgain(false);
                 return;
             }
             // toggle turn
@@ -171,23 +179,55 @@ public class GameController implements Initializable {
             // sends a x and y value
             writer.println(x);
             writer.println(y);
-
             if(gameOver)
-                checkPlayAgain();
+                checkPlayAgain(true);
         }
     }
 
-    private void checkPlayAgain() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you wanna play again?",
-                                ButtonType.YES, ButtonType.NO);
-        alert.getDialogPane().getStylesheets().add("/res/gameStyle.css");
-        alert.setTitle("Play Again?");
-        alert.show();
-        if(alert.getResult().equals(ButtonType.YES)){
-            //prey again
-        }else{
-            //fuck u
-        }
+    private void checkPlayAgain(boolean youWon) {
+        Platform.runLater(
+            () -> {
+                Alert alert = new Alert(
+                        Alert.AlertType.CONFIRMATION,
+                        "Do you wanna play again?",
+                        ButtonType.YES, ButtonType.NO
+                );
+                alert.getDialogPane().getStylesheets()
+                        .add("/res/gameStyle.css");
+                alert.setTitle("Play Again?");
+                Optional<ButtonType> result = alert.showAndWait();
+                gameOver = false;
+                if(result.get() == ButtonType.YES){
+                    for(Button[] button : buttons){
+                        for(Button b : button) {
+                            b.setDisable(false);
+                            b.getStyleClass().remove(OStyle);
+                            b.getStyleClass().remove(XStyle);
+                        }
+                    }
+                    turn = !youWon;
+                    chatField.appendText("[Game] Game restarted!\n");
+                    chatField.appendText("[Game] It's your ");
+                    if(!turn)
+                        chatField.appendText("opponent's ");
+                    chatField.appendText("turn!\n\n");
+                }else{
+                    Stage stage = ((Stage) chatField.getScene().getWindow());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("HostConnectScene.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        Platform.exit();
+                    }
+                    stage.setTitle("Tic Tac Toe Menu");
+                    stage.setScene(new Scene(root));
+                    stage.setWidth(500);
+                    stage.setHeight(270);
+                    stage.show();
+                }
+            }
+        );
     }
 
     // Method that checks if the board is full

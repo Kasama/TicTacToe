@@ -19,6 +19,8 @@ public class Main extends Application {
         Parent root = loader.load();
         primaryStage.setTitle("Tic Tac Toe Menu");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setHeight(270);
+        primaryStage.setWidth(500);
         primaryStage.show();
         // Updates a text field to have your external IP address, so its easier
         // for you to tell someone to connect to you

@@ -73,7 +73,7 @@ public class HostConnectController {
             // if the text field contains something other than a port number
             // show a dialog
             showDialog(
-                    "Invalid Port", "Warning:",
+                    "Invalid Port",
                     "Invalid port number: " + hostPortText.getText(),
                     Alert.AlertType.WARNING, ButtonType.OK
             );
@@ -88,7 +88,7 @@ public class HostConnectController {
             // if it was not possible, show a dialog
             // most of the reasons why this would fail is if a port is in use
             showDialog(
-                    "Could not open port", "Error:",
+                    "Could not open port",
                     "Could not open port: " + port + ", maybe it's in use",
                     Alert.AlertType.ERROR, ButtonType.OK
             );
@@ -139,7 +139,7 @@ public class HostConnectController {
                         // show a dialog and do nothing else
                         Platform.runLater(
                                 () -> showDialog(
-                                        "Connection Timeout", "Information",
+                                        "Connection Timeout",
                                         "Your connection timed out, click 'host' again",
                                         Alert.AlertType.INFORMATION,
                                         ButtonType.OK
@@ -150,7 +150,7 @@ public class HostConnectController {
                         // this should not happen under normal conditions
                         Platform.runLater(
                                 () -> showDialog(
-                                        "hosting problem", "Error",
+                                        "hosting problem",
                                         "There was an error while trying to host a connection",
                                         Alert.AlertType.ERROR, ButtonType.OK
                                 )
@@ -178,12 +178,12 @@ public class HostConnectController {
 
     // A simple function that creates a dialog box using the Alert class
     private void showDialog(
-            String title, String header, String message, Alert.AlertType type,
+            String title, String message, Alert.AlertType type,
             ButtonType buttonType
     ) {
         Alert alert = new Alert(type, message, buttonType);
         alert.getDialogPane().getStylesheets().add("/res/gameStyle.css");
-        alert.setHeaderText(header);
+        alert.setHeaderText(null);
         alert.setTitle(title);
         alert.showAndWait();
     }
@@ -195,13 +195,13 @@ public class HostConnectController {
 
         try {
             // tries to parse a port number from the text field
-            port = getPortFromTextField(hostPortText);
+            port = getPortFromTextField(connectPortText);
         } catch (NumberFormatException numberFormatException) {
             // if the text field contains something other than a port number
             // show a dialog
             showDialog(
-                    "Invalid Port", "Warning:",
-                    "Invalid port number: " + hostPortText.getText(),
+                    "Invalid Port",
+                    "Invalid port number: " + connectPortText.getText(),
                     Alert.AlertType.WARNING, ButtonType.OK
             );
             return;
@@ -216,8 +216,8 @@ public class HostConnectController {
             // show a dialog for unreachable host
             // most cases the IP is wrong, or there is no internet connection
             showDialog(
-                    "Unknown host", "Error:",
-                    "Couldn't find rout to host " + connectIPText.getText(),
+                    "Unknown host",
+                    "Couldn't find route to host " + connectIPText.getText(),
                     Alert.AlertType.ERROR, ButtonType.OK
             );
             return;
@@ -226,7 +226,7 @@ public class HostConnectController {
             // it was possible to contact the IP, but the port is not open
             // maybe the typed port is wrong or the host timed out
             showDialog(
-                    "Host not up", "Error:",
+                    "Host not up",
                     "Host "+connectIPText.getText()+" is not up, maybe the port is wrong",
                     Alert.AlertType.ERROR, ButtonType.OK
             );
@@ -275,7 +275,9 @@ public class HostConnectController {
             return;
         }
         // setup the new scene and arrange the stage for it
-        stage.setScene(new Scene(root, gameWidth, gameHeight));
+        stage.setScene(new Scene(root));
+        stage.setHeight(gameHeight);
+        stage.setWidth(gameWidth);
         stage.setTitle("Tic Tac Toe");
         stage.show();
         // get a scene controller reference to pass the connection socket to it
