@@ -1,6 +1,6 @@
 Tic Tac Toe
 ===========
-A simple two player p2p Tic Tac Toe game
+A simple two players p2p Tic Tac Toe game
 ----------------------------------------
 
 ###Authors:
@@ -9,7 +9,7 @@ A simple two player p2p Tic Tac Toe game
 	* Roberto Pommella Alegro		8936756
 	* Lucas Kassouf Crocomo			8937420
 
-***
+* * *
 
 ###Running
 	```
@@ -27,7 +27,7 @@ A simple two player p2p Tic Tac Toe game
 	If the game connects, a new screen will appear and you can play by ckicling the tiles. 
 	Also, there is a chat where you can talk to your opponent. Just press *Enter* to send a message.
 	
-***
+* * *
 
 ######coloscheme:
 Special thanks to:
