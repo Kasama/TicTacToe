@@ -6,13 +6,14 @@ A simple two players p2p Tic Tac Toe game
 ###Authors:
 <ul>
 	<li><p> Frederico de Azevedo Marques	8936926</p></li>
-	<li><p> Roberto Pommella Alegro			8936756</p></li>
 	<li><p> Lucas Kassouf Crocomo			8937420</p></li>
+	<li><p> Roberto Pommella Alegro			8936756</p></li>
 </ul>
+
 * * *
 
 ###Running:
-	<code>./run</code>
+    <code>./run</code>
 
 ###Compilinig:
 	<code>./compile</code>
