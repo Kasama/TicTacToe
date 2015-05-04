@@ -190,7 +190,7 @@ public class GameController implements Initializable {
                 alert.getDialogPane().getStylesheets()
                         .add("/res/gameStyle.css");
                 alert.setTitle("Play Again?");
-//                alert.showAndWait();
+                alert.show();
 //                if (alert.getResult().equals(ButtonType.YES)) {
 //                    //prey again
 //                } else {
