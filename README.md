@@ -26,11 +26,11 @@ Tic Tac Toe
 	
 When the aplication starts, you may choose a **nickname** and which symbol you prefer to play with, **X** or **O**.
 
-To host a game, insert a valid **port number** on the specified field.
+To host a game, insert a valid **port number** on the specified field, your external **IP** address can be found in the **IP** field.
+
 To connect as a client, enter the **host's IP adress** and **port number** on specified fields.
 
-When the game connects, a new screen will show up and you can play by clicking the tiles. 
-Also, there is a chat where you can talk to your opponent. Just type a message and press **Enter** to send it.
+When the game connects, a new screen will show up and you can play by clicking the tiles, also, there is a chat wher you can talk to your opponent. Just type a message and press **Enter** to send it.
 	
 * * *
 
