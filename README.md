@@ -4,29 +4,35 @@ A simple two players p2p Tic Tac Toe game
 ----------------------------------------
 
 ###Authors:
-<ul>
-	<li><p> Frederico de Azevedo Marques	8936926</p></li>
-	<li><p> Lucas Kassouf Crocomo			8937420</p></li>
-	<li><p> Roberto Pommella Alegro			8936756</p></li>
-</ul>
+
+* Frederico de Azevedo Marques	8936926
+* Lucas Kassouf Crocomo		8937420
+* Roberto Pommella Alegro	8936756
 
 * * *
 
-###Running:
-    <code>./run</code>
+###Compiling:
+	
+```bash
+./compile.sh
+```
 
-###Compilinig:
-	<code>./compile</code>
+###Running:
+    
+```bash
+./run.sh
+```
 
 ###How to play:
-	When the aplication starts, you may choose a <b>nickname</b> and which symbol you prefer to play with, <b>X</b> or <b>O</b>.
-	For hosting a game, insert a valid <b>port number</b> on the speacified field.
-	For connecting as client, informe the <b>host's IP adress</b> and <b>port number</b> on specified fields.
-	If the game connects, a new screen will appear and you can play by ckicling the tiles. 
-	Also, there is a chat where you can talk to your opponent. Just press <b>Enter</b> to send a message.
+	
+When the aplication starts, you may choose a **nickname** and which symbol you prefer to play with, **X** or **O**.
+For hosting a game, insert a valid **port number** on the specified field.
+For connecting as client, informe the **host's IP adress** and **port number** on specified fields.
+
+When the game connects, a new screen will show up and you can play by clicking the tiles. 
+Also, there is a chat where you can talk to your opponent. Just type a message and press **Enter** to send it.
 	
 * * *
 
-######coloscheme:
-Special thanks to:
-https://github.com/chriskempson/base16
+#####Special Thanks to:
+[ChrisKempson's base16 project](https://github.com/chriskempson/base16) used as our colorscheme
