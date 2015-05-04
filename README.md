@@ -14,6 +14,7 @@ Tic Tac Toe
 
 ```bash
 git clone https://github.com/Kasama/TicTacToe
+cd TicTacToe
 ```
 
 ###Compiling:
