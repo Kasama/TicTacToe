@@ -12,10 +12,10 @@ A simple two players p2p Tic Tac Toe game
 * * *
 
 ###Running
-	<./run>
+	<code> ./run</code>
 
 ###Compiling
-	<./compile>
+	<code>./compile</code>
 
 ###How to play
 	When the aplication starts, you may choose a <b>nickname</b> and which symbol you prefer to play with, <b>X</b> or <b>O</b>.
