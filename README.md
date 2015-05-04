@@ -34,5 +34,4 @@ Also, there is a chat where you can talk to your opponent. Just type a message a
 	
 * * *
 
-#####Special Thanks to:
-[ChrisKempson's base16 project](https://github.com/chriskempson/base16) used as our colorscheme
+#####Special Thanks to [ChrisKempson's base16 project](https://github.com/chriskempson/base16) used as our colorscheme
