@@ -21,7 +21,7 @@ public class HostConnectController {
     // constants
     private final double gameWidth = 800;
     private final double gameHeight = 600;
-    private final long timeout = 6000;
+    private final long timeout = 30000;
 
     // Screen objects
     @FXML private RadioButton ORadio;
