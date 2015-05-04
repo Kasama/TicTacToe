@@ -152,6 +152,8 @@ public class GameController implements Initializable {
                 // set the turn before leaving
                 canClick = !canClick;
                 turn = true;
+                if(gameOver)
+                    checkPlayAgain();
                 return;
             }
             // toggle turn
@@ -171,7 +173,6 @@ public class GameController implements Initializable {
             // sends a x and y value
             writer.println(x);
             writer.println(y);
-
             if(gameOver)
                 checkPlayAgain();
         }
