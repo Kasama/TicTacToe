@@ -19,12 +19,14 @@ git clone https://github.com/Kasama/TicTacToe
 ###Compiling:
 	
 ```bash
+chmod +x compile.sh
 ./compile.sh
 ```
 
 ###Running:
     
 ```bash
+chmod +x run.sh
 ./run.sh
 ```
 
