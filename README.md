@@ -25,8 +25,9 @@ Tic Tac Toe
 ###How to play:
 	
 When the aplication starts, you may choose a **nickname** and which symbol you prefer to play with, **X** or **O**.
-For hosting a game, insert a valid **port number** on the specified field.
-For connecting as client, informe the **host's IP adress** and **port number** on specified fields.
+
+To host a game, insert a valid **port number** on the specified field.
+To connect as a client, enter the **host's IP adress** and **port number** on specified fields.
 
 When the game connects, a new screen will show up and you can play by clicking the tiles. 
 Also, there is a chat where you can talk to your opponent. Just type a message and press **Enter** to send it.
