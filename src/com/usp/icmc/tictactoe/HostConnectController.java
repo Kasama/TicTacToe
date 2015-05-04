@@ -18,11 +18,17 @@ import java.util.TimerTask;
 
 public class HostConnectController {
 
+    // constants
     private final double gameWidth = 800;
     private final double gameHeight = 600;
     private final long timeout = 6000;
 
-    @FXML public ToggleGroup selectRadio;
+    // Screen objects
+    @FXML private RadioButton ORadio;
+    @FXML private RadioButton XRadio;
+    @FXML private TextField nicknameField;
+    @FXML private ToggleGroup selectRadio;
+    @FXML private ToggleGroup iconRadio;
     @FXML private TextField hostPortText;
     @FXML private TextField hostIPText;
     @FXML private TextField connectIPText;
@@ -33,9 +39,10 @@ public class HostConnectController {
     @FXML private Button connectButton;
     @FXML private ProgressIndicator hostIndicator;
 
+    // The connection socket
     private Socket connection;
 
-    @FXML
+    @FXML // When the radio button to host is clicked, disable the connect area
     private void setRadioHost(Event e) {
         connectIPText.setDisable(true);
         connectPortText.setDisable(true);
@@ -44,7 +51,7 @@ public class HostConnectController {
         hostButton.setDisable(false);
     }
 
-    @FXML
+    @FXML // When the radio button to connect is clicked, disable the host area
     private void setRadioConnect(Event e) {
         connectIPText.setDisable(false);
         connectPortText.setDisable(false);
@@ -53,36 +60,43 @@ public class HostConnectController {
         hostButton.setDisable(true);
     }
 
-    @FXML
+    @FXML // Host button was clicked, open a connection
     private void waitForConnection(Event e) {
 
         int port;
         final ServerSocket socket;
 
         try {
+            // tries to parse a port number from the text field
             port = getPortFromTextField(hostPortText);
         } catch (NumberFormatException numberFormatException) {
+            // if the text field contains something other than a port number
+            // show a dialog
             showDialog(
                     "Invalid Port", "Warning:",
                     "Invalid port number: " + hostPortText.getText(),
                     Alert.AlertType.WARNING, ButtonType.OK
             );
-            System.err.println("Invalid port number");
             return;
         }
 
+
         try {
+            // tries to open a server socket on given port
             socket = new ServerSocket(port);
         } catch (IOException ioException) {
+            // if it was not possible, show a dialog
+            // most of the reasons why this would fail is if a port is in use
             showDialog(
                     "Could not open port", "Error:",
                     "Could not open port: " + port + ", maybe it's in use",
                     Alert.AlertType.ERROR, ButtonType.OK
             );
-            System.err.println("Could not open port " + port);
+            System.err.println("Could not open port " + port + ". Maybe it's in use");
             return;
         }
 
+        // creates a timer thread to kill the socket after a timeout
         Timer timer = new Timer();
         Thread handleServerAcceptanceTimeout = new Thread(
                 () -> {
@@ -91,11 +105,14 @@ public class HostConnectController {
                                 @Override
                                 public void run() {
                                     try {
+                                        // kills the socket
+                                        // will cause a SocketException to be
+                                        // thrown at the other thread
                                         socket.close();
                                         hostIndicator.setVisible(false);
                                     } catch (IOException ioException) {
                                         System.err.println(
-                                                "Not possible to close the socket"
+                                            "Not possible to close the socket"
                                         );
                                     }
                                 }
@@ -106,13 +123,20 @@ public class HostConnectController {
         handleServerAcceptanceTimeout.setDaemon(true);
         handleServerAcceptanceTimeout.start();
 
+        // shows a indicator that the server is waiting for a connection
         hostIndicator.setVisible(true);
         Stage stage = ((Stage) ((Button) e.getSource()).getScene().getWindow());
+        // thread to wait until someone connects
+        // A thread is needed, otherwise the GUI would freeze
         Thread handleServerAcceptance = new Thread(
                 () -> {
                     try {
+                        // wait for a connection. This stops the thread until
+                        // something happens
                         connection = socket.accept();
                     } catch (SocketException socketException) {
+                        // if the socket times out due to the previous thread
+                        // show a dialog and do nothing else
                         Platform.runLater(
                                 () -> showDialog(
                                         "Connection Timeout", "Information",
@@ -123,6 +147,7 @@ public class HostConnectController {
                         );
                         return;
                     } catch (IOException ioException) {
+                        // this should not happen under normal conditions
                         Platform.runLater(
                                 () -> showDialog(
                                         "hosting problem", "Error",
@@ -132,10 +157,15 @@ public class HostConnectController {
                         );
                         return;
                     } finally {
+                        // kills the timeout thread.
+                        // fixes a bug when the thread would remain alive after
+                        // the program closed
                         timer.cancel();
                         handleServerAcceptanceTimeout.interrupt();
                     }
 
+                    // change to the game scene, because the connection was
+                    // successful
                     Platform.runLater(
                             () -> changeToGameScene(stage, connection, true)
                     );
@@ -146,6 +176,7 @@ public class HostConnectController {
 
     }
 
+    // A simple function that creates a dialog box using the Alert class
     private void showDialog(
             String title, String header, String message, Alert.AlertType type,
             ButtonType buttonType
@@ -157,28 +188,33 @@ public class HostConnectController {
         alert.showAndWait();
     }
 
-    @FXML
+    @FXML // Connect button was clicked, try to connect to a host
     private void connectToServer(Event e) {
         String IP;
         int port;
 
         try {
-            port = getPortFromTextField(connectPortText);
+            // tries to parse a port number from the text field
+            port = getPortFromTextField(hostPortText);
         } catch (NumberFormatException numberFormatException) {
+            // if the text field contains something other than a port number
+            // show a dialog
             showDialog(
                     "Invalid Port", "Warning:",
                     "Invalid port number: " + hostPortText.getText(),
                     Alert.AlertType.WARNING, ButtonType.OK
             );
-            System.out.println("Invalid port number");
             return;
         }
 
         IP = connectIPText.getText();
 
         try {
+            // tried to connect to IP:port
             connection = new Socket(IP, port);
         } catch (UnknownHostException e1) {
+            // show a dialog for unreachable host
+            // most cases the IP is wrong, or there is no internet connection
             showDialog(
                     "Unknown host", "Error:",
                     "Couldn't find rout to host " + connectIPText.getText(),
@@ -186,6 +222,9 @@ public class HostConnectController {
             );
             return;
         } catch (IOException e1) {
+            // show a dialog for wrong port
+            // it was possible to contact the IP, but the port is not open
+            // maybe the typed port is wrong or the host timed out
             showDialog(
                     "Host not up", "Error:",
                     "Host "+connectIPText.getText()+" is not up, maybe the port is wrong",
@@ -195,9 +234,12 @@ public class HostConnectController {
         }
 
         Stage stage = ((Stage) ((Button) e.getSource()).getScene().getWindow());
+
         changeToGameScene(stage, false);
     }
 
+    // A simple function to extract a port number from a TextField
+    // the text must be a positive number, less than 65536
     private int getPortFromTextField(TextField textField) {
         int port;
         port = Integer.parseInt(textField.getText());
@@ -206,35 +248,50 @@ public class HostConnectController {
         return port;
     }
 
+    // A simple function to change the game scene to the game once a connection
+    // was made
     private void changeToGameScene(Stage stage, boolean turn) {
         changeToGameScene(stage, connection, turn);
     }
 
+    // A simple function to change the game scene to the game once a connection
+    // was made
     private void changeToGameScene(
             Stage stage, Socket connection, boolean turn
     ) {
 
         GameController gc;
+        // get a scene loader for the next scene
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("gameScene.fxml")
         );
         Parent root;
         try {
+            // tries to load it
             root = loader.load();
         } catch (IOException e) {
+            // this should not happen
             e.printStackTrace();
             return;
         }
-        stage.setTitle("Tic Tac Toe");
+        // setup the new scene and arrange the stage for it
         stage.setScene(new Scene(root, gameWidth, gameHeight));
+        stage.setTitle("Tic Tac Toe");
         stage.show();
+        // get a scene controller reference to pass the connection socket to it
+        // and focus a text field
         gc = loader.getController();
-        gc.initializeSocket(connection);
+        gc.initializeSocketReader(connection);
         gc.focusSendText();
-        gc.setMyTurn(turn);
+        // Host always goes first and client goes second
+        gc.setTurn(turn);
+        gc.setIcon(((RadioButton) iconRadio.getSelectedToggle()).getText());
+        gc.setNickName(nicknameField.getText());
 
     }
 
+    // Function that checks the users external IP address and places it into a
+    // text field
     public void updateHostIPAddress() {
         try {
             hostIPText.setText(

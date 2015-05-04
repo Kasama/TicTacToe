@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox stylesheets="@../../../../res/gameStyle.css" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8"
+<VBox alignment="CENTER_LEFT" stylesheets="@../../../../res/gameStyle.css" xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.usp.icmc.tictactoe.HostConnectController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
@@ -17,8 +17,29 @@
          </font>
       </Label>
    </HBox>
-   <RadioButton fx:id="hostRadio" mnemonicParsing="false" onAction="#setRadioHost" selected="true" text="Host"
-                maxWidth="Infinity">
+   <Separator orientation="HORIZONTAL">
+      <HBox.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </HBox.margin>
+   </Separator>
+   <HBox alignment="CENTER">
+      <Label text="Nickname: " HBox.hgrow="ALWAYS"/>
+      <TextField fx:id="nicknameField" alignment="CENTER" promptText="Type a Nickname" HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+         </HBox.margin>
+      </TextField>
+      <RadioButton fx:id="XRadio" maxWidth="Infinity" mnemonicParsing="false" selected="true" text="X ">
+         <toggleGroup>
+            <ToggleGroup fx:id="iconRadio"/>
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="ORadio" maxWidth="Infinity" mnemonicParsing="false" selected="true" text="O"
+                   toggleGroup="$iconRadio">
+      </RadioButton>
+   </HBox>
+   <RadioButton fx:id="hostRadio" maxWidth="Infinity" mnemonicParsing="false" onAction="#setRadioHost" selected="true"
+                text="Host">
       <toggleGroup>
          <ToggleGroup fx:id="selectRadio"/>
       </toggleGroup>
@@ -37,15 +58,15 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
       </TextField>
-      <ProgressIndicator fx:id="hostIndicator" visible="false" prefHeight="24.0" prefWidth="16.0"/>
+      <ProgressIndicator fx:id="hostIndicator" prefHeight="24.0" prefWidth="16.0" visible="false"/>
       <Button fx:id="hostButton" mnemonicParsing="false" onAction="#waitForConnection" text="Host">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="6.0" top="5.0"/>
          </HBox.margin>
       </Button>
    </HBox>
-   <RadioButton fx:id="connectRadio" mnemonicParsing="false" onAction="#setRadioConnect" text="Connect"
-                toggleGroup="$selectRadio" maxWidth="Infinity"/>
+   <RadioButton fx:id="connectRadio" maxWidth="Infinity" mnemonicParsing="false" onAction="#setRadioConnect"
+                text="Connect" toggleGroup="$selectRadio"/>
    <HBox alignment="CENTER">
       <VBox.margin>
          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>

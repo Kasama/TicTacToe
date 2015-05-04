@@ -1,70 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox stylesheets="@../../../../res/gameStyle.css" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.usp.icmc.tictactoe.HostConnectController">
+<VBox alignment="CENTER_LEFT" stylesheets="@../../../../res/gameStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.usp.icmc.tictactoe.HostConnectController">
    <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
-   <HBox alignment="CENTER">
-      <Label alignment="CENTER" text="Tic Tac Toe">
-         <font>
-            <Font size="56.0"/>
-         </font>
-      </Label>
-   </HBox>
-   <RadioButton fx:id="hostRadio" mnemonicParsing="false" onAction="#setRadioHost" selected="true" text="Host"
-                maxWidth="Infinity">
-      <toggleGroup>
-         <ToggleGroup fx:id="selectRadio"/>
-      </toggleGroup>
-   </RadioButton>
-   <HBox alignment="CENTER">
-      <VBox.margin>
-         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-      </VBox.margin>
-      <TextField fx:id="hostIPText" alignment="CENTER" disable="true" promptText="Your IP">
+   <children>
+      <HBox alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="Tic Tac Toe">
+               <font>
+                  <Font size="56.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Separator orientation="HORIZONTAL">
          <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </HBox.margin>
-      </TextField>
-      <TextField fx:id="hostPortText" alignment="CENTER" promptText="Port" text="1234">
-         <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-         </HBox.margin>
-      </TextField>
-      <ProgressIndicator fx:id="hostIndicator" opacity="0.0" prefHeight="24.0" prefWidth="16.0"/>
-      <Button fx:id="hostButton" mnemonicParsing="false" onAction="#waitForConnection" text="Host">
-         <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="6.0" top="5.0"/>
-         </HBox.margin>
-      </Button>
-   </HBox>
-   <RadioButton fx:id="connectRadio" mnemonicParsing="false" onAction="#setRadioConnect" text="Connect"
-                toggleGroup="$selectRadio" maxWidth="Infinity"/>
-   <HBox alignment="CENTER">
-      <VBox.margin>
-         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-      </VBox.margin>
-      <TextField fx:id="connectIPText" alignment="CENTER" disable="true" promptText="connect to IP" text="localhost">
-         <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-         </HBox.margin>
-      </TextField>
-      <TextField fx:id="connectPortText" alignment="CENTER" disable="true" promptText="Port" text="1234">
-         <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-         </HBox.margin>
-      </TextField>
-      <Button fx:id="connectButton" disable="true" mnemonicParsing="false" onAction="#connectToServer"
-              text="Connect">
-         <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-         </HBox.margin>
-      </Button>
-   </HBox>
+      </Separator>
+      <HBox alignment="CENTER">
+         <children>
+            <Label text="Nickname: " HBox.hgrow="ALWAYS" />
+            <TextField fx:id="nicknameField" alignment="CENTER" promptText="Type a Nickname" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <RadioButton fx:id="XRadio" maxWidth="Infinity" mnemonicParsing="false" selected="true" text="X ">
+               <toggleGroup>
+                  <ToggleGroup fx:id="iconRadio" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="ORadio" maxWidth="Infinity" mnemonicParsing="false" selected="true" text="O" toggleGroup="$iconRadio">
+      </RadioButton>
+         </children>
+      </HBox>
+      <RadioButton fx:id="hostRadio" maxWidth="Infinity" mnemonicParsing="false" onAction="#setRadioHost" selected="true" text="Host">
+         <toggleGroup>
+            <ToggleGroup fx:id="selectRadio" />
+         </toggleGroup>
+      </RadioButton>
+      <HBox alignment="CENTER">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <children>
+            <TextField fx:id="hostIPText" alignment="CENTER" disable="true" promptText="Your IP">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="hostPortText" alignment="CENTER" promptText="Port" text="1234">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <ProgressIndicator fx:id="hostIndicator" prefHeight="24.0" prefWidth="16.0" visible="false" />
+            <Button fx:id="hostButton" mnemonicParsing="false" onAction="#waitForConnection" text="Host">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="6.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <RadioButton fx:id="connectRadio" maxWidth="Infinity" mnemonicParsing="false" onAction="#setRadioConnect" text="Connect" toggleGroup="$selectRadio" />
+      <HBox alignment="CENTER">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <children>
+            <TextField fx:id="connectIPText" alignment="CENTER" disable="true" promptText="connect to IP" text="localhost">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <TextField fx:id="connectPortText" alignment="CENTER" disable="true" promptText="Port" text="1234">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <Button fx:id="connectButton" disable="true" mnemonicParsing="false" onAction="#connectToServer" text="Connect">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
 </VBox>
