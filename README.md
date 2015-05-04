@@ -10,6 +10,12 @@ Tic Tac Toe
 
 * * *
 
+###Downloading:
+
+```bash
+git clone https://github.com/Kasama/TicTacToe
+```
+
 ###Compiling:
 	
 ```bash
