@@ -5,8 +5,8 @@ Tic Tac Toe
 ###Authors:
 
 * Frederico de Azevedo Marques - 8936926
-* Lucas Kassouf Crocomo	- 8937420
-* Roberto Pommella Alegro - 8936756
+* Lucas Kassouf Crocomo	       - 8937420
+* Roberto Pommella Alegro      - 8936756
 
 * * *
 
