@@ -6,16 +6,21 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -154,7 +159,7 @@ public class GameController implements Initializable {
                 canClick = !canClick;
                 turn = true;
                 if(gameOver)
-                    checkPlayAgain();
+                    checkPlayAgain(false);
                 return;
             }
             // toggle turn
@@ -175,11 +180,11 @@ public class GameController implements Initializable {
             writer.println(x);
             writer.println(y);
             if(gameOver)
-                checkPlayAgain();
+                checkPlayAgain(true);
         }
     }
 
-    private void checkPlayAgain() {
+    private void checkPlayAgain(boolean youWon) {
         Platform.runLater(
             () -> {
                 Alert alert = new Alert(
@@ -190,12 +195,37 @@ public class GameController implements Initializable {
                 alert.getDialogPane().getStylesheets()
                         .add("/res/gameStyle.css");
                 alert.setTitle("Play Again?");
-                alert.show();
-//                if (alert.getResult().equals(ButtonType.YES)) {
-//                    //prey again
-//                } else {
-//                    //fuck u
-//                }
+                Optional<ButtonType> result = alert.showAndWait();
+                gameOver = false;
+                if(result.get() == ButtonType.YES){
+                    for(Button[] button : buttons){
+                        for(Button b : button) {
+                            b.setDisable(false);
+                            b.getStyleClass().remove(OStyle);
+                            b.getStyleClass().remove(XStyle);
+                        }
+                    }
+                    turn = !youWon;
+                    chatField.appendText("[Game] Game restarted!\n");
+                    chatField.appendText("[Game] It's your ");
+                    if(!turn)
+                        chatField.appendText("opponent's ");
+                    chatField.appendText("turn!\n\n");
+                }else{
+                    Stage stage = ((Stage) chatField.getScene().getWindow());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("HostConnectScene.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        Platform.exit();
+                    }
+                    stage.setTitle("Tic Tac Toe Menu");
+                    stage.setScene(new Scene(root));
+                    stage.setWidth(500);
+                    stage.setHeight(270);
+                    stage.show();
+                }
             }
         );
     }
