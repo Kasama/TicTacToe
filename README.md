@@ -1,13 +1,12 @@
 Tic Tac Toe
 ===========
-A simple two players p2p Tic Tac Toe game
-----------------------------------------
+##A simple two players p2p Tic Tac Toe game
 
 ###Authors:
 
-* Frederico de Azevedo Marques	8936926
-* Lucas Kassouf Crocomo		8937420
-* Roberto Pommella Alegro	8936756
+* Frederico de Azevedo Marques - 8936926
+* Lucas Kassouf Crocomo	- 8937420
+* Roberto Pommella Alegro - 8936756
 
 * * *
 
