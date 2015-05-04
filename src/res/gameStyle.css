@@ -13,15 +13,13 @@
 }
 
 .text-area{
-    -fx-border-color: #585858;
-    -fx-background-color: #585858, #585858, #585858;
-    /*-fx-border-width: 0.1;*/
+    -fx-background-color: #585858;
+    -fx-text-fill: #E8E8E8;
 }
 
-.text-area:focused {
-    /*-fx-background-color: -fx-focus-color, -fx-text-box-border, -fx-control-inner-background;*/
-    -fx-background-color: #585858, #585858, #585858;
-    /*-fx-border-width: 0.1;*/
+.text-area:focused{
+    -fx-background-color: #585858;
+    -fx-text-fill: #E8E8E8;
 }
 
 .text-area .content{
