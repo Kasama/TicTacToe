@@ -181,22 +181,22 @@ public class GameController implements Initializable {
 
     private void checkPlayAgain() {
         Platform.runLater(
-                () -> {
-                    Alert alert = new Alert(
-                            Alert.AlertType.CONFIRMATION,
-                            "Do you wanna play again?",
-                            ButtonType.YES, ButtonType.NO
-                    );
-                    alert.getDialogPane().getStylesheets()
-                            .add("/res/gameStyle.css");
-                    alert.setTitle("Play Again?");
-                    alert.show();
-                    if (alert.getResult().equals(ButtonType.YES)) {
-                        //prey again
-                    } else {
-                        //fuck u
-                    }
-                }
+            () -> {
+                Alert alert = new Alert(
+                        Alert.AlertType.CONFIRMATION,
+                        "Do you wanna play again?",
+                        ButtonType.YES, ButtonType.NO
+                );
+                alert.getDialogPane().getStylesheets()
+                        .add("/res/gameStyle.css");
+                alert.setTitle("Play Again?");
+//                alert.showAndWait();
+//                if (alert.getResult().equals(ButtonType.YES)) {
+//                    //prey again
+//                } else {
+//                    //fuck u
+//                }
+            }
         );
     }
 
