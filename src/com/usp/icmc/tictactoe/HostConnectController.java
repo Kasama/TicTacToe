@@ -287,6 +287,7 @@ public class HostConnectController {
         gc.setTurn(turn);
         gc.setIcon(((RadioButton) iconRadio.getSelectedToggle()).getText());
         gc.setNickName(nicknameField.getText());
+        gc.printWelcomeText();
 
     }
 

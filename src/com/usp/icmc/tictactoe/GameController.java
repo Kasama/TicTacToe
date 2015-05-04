@@ -8,9 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -40,6 +38,7 @@ public class GameController implements Initializable {
     // Game variables
     private boolean canClick;
     private boolean turn;
+    private boolean gameOver = false;
     private String myStyle;
     private String opponentStyle;
     private String nickName;
@@ -88,7 +87,22 @@ public class GameController implements Initializable {
 
     // Gets the nickname, from previous scene
     public void setNickName(String nickName) {
-        this.nickName = nickName;
+        if(nickName.equals(""))
+            this.nickName = turn ? "adenilsoN 1" : "adenilsoN 2";
+        else
+            this.nickName = nickName;
+    }
+
+    public void printWelcomeText() {
+        chatField.appendText(
+                "[Game] " + nickName + ", welcome to the Tic Tac Toe game!\n"
+        );
+        chatField.appendText("[Game] You can chat with your opponent here!\n");
+        if(turn){
+            chatField.appendText("[Game] It's your turn!\n\n");
+        }else{
+            chatField.appendText("[Game] It's your opponent's turn!\n\n");
+        }
     }
 
     // Inner class to handle the button presses
@@ -117,19 +131,21 @@ public class GameController implements Initializable {
             button.setDisable(true);
             // style the button to show an X or a O, depending on turn
             button.getStyleClass().add(getStyle(turn));
-            // checks if the game is over and disables the board if so
+            // checks if the game is gameOver and disables the board if so
             if (checkGameOver()) {
                 for (Button[] button1 : buttons)
                     for (Button button2 : button1)
                         button2.setDisable(true);
                 // also prints a chat message to say if the player won or lost
                 if (turn) {
-                    chatField.appendText("[Game]: You Won!\n");
+                    chatField.appendText("[Game] You Won!\n");
                 } else {
-                    chatField.appendText("[Game]: You Lost!\n");
+                    chatField.appendText("[Game] You Lost!\n");
                 }
+                gameOver = true;
             }else if(isBoardFull()){
-                chatField.appendText("[Game]: Draw!\n");
+                chatField.appendText("[Game] Draw!\n");
+                gameOver = true;
             }
             // if this event happened due to a chat command. end it here
             if (!turn) {
@@ -156,6 +172,21 @@ public class GameController implements Initializable {
             writer.println(x);
             writer.println(y);
 
+            if(gameOver)
+                checkPlayAgain();
+        }
+    }
+
+    private void checkPlayAgain() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you wanna play again?",
+                                ButtonType.YES, ButtonType.NO);
+        alert.getDialogPane().getStylesheets().add("/res/gameStyle.css");
+        alert.setTitle("Play Again?");
+        alert.show();
+        if(alert.getResult().equals(ButtonType.YES)){
+            //prey again
+        }else{
+            //fuck u
         }
     }
 
@@ -179,8 +210,8 @@ public class GameController implements Initializable {
         if (chatInput.getText().equals(""))
             return;
         // append text to own chat and send it to opponent
-        writer.println("["+nickName+"]: " + chatInput.getText());
-        chatField.appendText("[You]: " + chatInput.getText() + "\n");
+        writer.println(nickName+": " + chatInput.getText());
+        chatField.appendText("You: " + chatInput.getText() + "\n");
         chatInput.setText("");
     }
 
@@ -189,7 +220,7 @@ public class GameController implements Initializable {
         return turn ? myStyle : opponentStyle;
     }
 
-    // Function to check every game over scenario
+    // Function to check every game gameOver scenario
     private boolean checkGameOver() {
         for (int i = 0; i < buttons.length; i++) {
             // test for each row to O
