@@ -1,6 +1,7 @@
 package com.usp.icmc.tictactoe;
 
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -179,16 +180,24 @@ public class GameController implements Initializable {
     }
 
     private void checkPlayAgain() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you wanna play again?",
-                                ButtonType.YES, ButtonType.NO);
-        alert.getDialogPane().getStylesheets().add("/res/gameStyle.css");
-        alert.setTitle("Play Again?");
-        alert.show();
-        if(alert.getResult().equals(ButtonType.YES)){
-            //prey again
-        }else{
-            //fuck u
-        }
+        Platform.runLater(
+                () -> {
+                    Alert alert = new Alert(
+                            Alert.AlertType.CONFIRMATION,
+                            "Do you wanna play again?",
+                            ButtonType.YES, ButtonType.NO
+                    );
+                    alert.getDialogPane().getStylesheets()
+                            .add("/res/gameStyle.css");
+                    alert.setTitle("Play Again?");
+                    alert.show();
+                    if (alert.getResult().equals(ButtonType.YES)) {
+                        //prey again
+                    } else {
+                        //fuck u
+                    }
+                }
+        );
     }
 
     // Method that checks if the board is full
