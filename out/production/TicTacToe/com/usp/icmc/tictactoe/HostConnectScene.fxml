@@ -53,7 +53,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
       </TextField>
-      <TextField fx:id="hostPortText" alignment="CENTER" promptText="Port" text="1234" HBox.hgrow="ALWAYS">
+      <TextField fx:id="hostPortText" alignment="CENTER" promptText="Port" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
@@ -71,12 +71,12 @@
       <VBox.margin>
          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
       </VBox.margin>
-      <TextField fx:id="connectIPText" alignment="CENTER" disable="true" promptText="connect to IP" text="localhost" HBox.hgrow="ALWAYS">
+      <TextField fx:id="connectIPText" alignment="CENTER" disable="true" promptText="Host's IP" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
       </TextField>
-      <TextField fx:id="connectPortText" alignment="CENTER" disable="true" promptText="Port" text="1234" HBox.hgrow="ALWAYS">
+      <TextField fx:id="connectPortText" alignment="CENTER" disable="true" promptText="Port" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>

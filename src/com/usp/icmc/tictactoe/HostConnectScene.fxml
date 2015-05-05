@@ -71,7 +71,7 @@
       <VBox.margin>
          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
       </VBox.margin>
-      <TextField fx:id="connectIPText" alignment="CENTER" disable="true" promptText="connect to IP" HBox.hgrow="ALWAYS">
+      <TextField fx:id="connectIPText" alignment="CENTER" disable="true" promptText="Host's IP" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
          </HBox.margin>
